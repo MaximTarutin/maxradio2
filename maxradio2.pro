@@ -11,13 +11,16 @@ CONFIG += c++17
 SOURCES += \
     databaseradio.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    playlistradio.cpp
 
 HEADERS += \
     databaseradio.h \
-    mainwindow.h
+    mainwindow.h \
+    playlistradio.h
 
-FORMS +=
+FORMS += \
+    playlistradio.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
