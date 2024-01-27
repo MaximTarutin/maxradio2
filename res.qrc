@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/add.png</file>
+        <file>res/back.png</file>
+        <file>res/del.png</file>
+        <file>res/play-d.png</file>
+        <file>res/play.png</file>
+        <file>res/prosrach.png</file>
+        <file>res/radio-color.png</file>
+        <file>res/radio-gray.png</file>
+        <file>res/ramka.png</file>
+        <file>res/stop-d.png</file>
+        <file>res/stop.png</file>
+        <file>res/vborder.png</file>
+    </qresource>
+</RCC>
