@@ -4,7 +4,9 @@
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 #include <QIcon>
-#include "maxradio_database.h"
+#include <QMenu>
+#include <QAction>
+#include "databaseradio.h"
 
 class MainWindow : public QMainWindow
 {
@@ -15,12 +17,16 @@ public:
     ~MainWindow();
 
 private:
-    QSystemTrayIcon     *trayIcon;
-    Maxradio_DataBase   *database;
+    QSystemTrayIcon     *trayIcon;                  // иконка трее
+    DataBaseRadio       *database;                  // база данных
+    QMenu               *menu;                      // контекстное меню
+    QAction             *exit_action;               // пункт меню выход из программы
+    QAction             *playlist_action;           // пункт меню открыть плейлист
 
 
 private slots:
     void init();                        // инициализация программы
+    void exit_of_programm();            // выход из программы
 };
 
 #endif // MAINWINDOW_H

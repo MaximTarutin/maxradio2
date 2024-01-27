@@ -1,15 +1,30 @@
-#include "maxradio_database.h"
-#include <QDir>
+#include "databaseradio.h"
+#include <QDebug>
 
-Maxradio_DataBase::Maxradio_DataBase(QObject *parent)
-    : QObject{parent}
+DataBaseRadio::DataBaseRadio()
 {
 
 }
 
+DataBaseRadio::~DataBaseRadio()
+{
+
+}
+
+std::list<QString> DataBaseRadio::proba()
+{
+    std::list <QString> name;
+
+    name.push_back("1");
+    name.push_back("3");
+    name.push_back("8");
+
+    return name;
+}
+
 // ----------------------- Открытие базы данных -------------------------------------
 
-void Maxradio_DataBase::open_database()
+void DataBaseRadio::open_database()
 {
     QString path;
 
@@ -28,7 +43,7 @@ void Maxradio_DataBase::open_database()
 
 // --------------------- Инициализация базы данных ----------------------------------------
 
-void Maxradio_DataBase::init_database()
+void DataBaseRadio::init_database()
 {
     QSqlQuery query;
     int count = 0;
