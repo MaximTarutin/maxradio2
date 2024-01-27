@@ -5,8 +5,6 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    FLAG_SHOW = false;
-
     trayIcon =        new QSystemTrayIcon(this);
     database =        new DataBaseRadio();
     menu =            new QMenu(this);
@@ -19,7 +17,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-    qDebug() << database->proba();
+    qDebug() << database->read_groups_db();
+    qDebug() << database->read_name_db();
+    qDebug() << database->read_url_db();
+
     init();
 
     connect(exit_action,    &QAction::triggered,            this,   &MainWindow::exit_of_programm);     // выход из программы
@@ -71,31 +72,36 @@ void MainWindow::init_size()
 
 void MainWindow::show_list_radio(QSystemTrayIcon::ActivationReason r)
 {
-    if (!FLAG_SHOW)
-    {
-        if (r==QSystemTrayIcon::Trigger)
-        {
-            int x_cur, y_cur;
-            x_cur = QCursor::pos().x();
-            y_cur = QCursor::pos().y();
 
-            if(y_cur < size_h/2)
-            {
-                playlist_window->move(x_cur-playlist_window->width()/2, y_cur+40);
-            } else
-            {
-                playlist_window->move(x_cur-playlist_window->width()/2, y_cur-playlist_window->height()-40);
-            }
-            playlist_window->show();
-        }
-        FLAG_SHOW = true;
-        return;
-    } else
+    if (r==QSystemTrayIcon::Trigger)
     {
-        playlist_window->hide();
-        FLAG_SHOW = false;
-        return;
+        int x_cur, y_cur;
+        x_cur = QCursor::pos().x();
+        y_cur = QCursor::pos().y();
+
+        if(y_cur < size_h/2)
+        {
+            playlist_window->move(x_cur-playlist_window->width()/2, y_cur+40);
+        } else
+        {
+            playlist_window->move(x_cur-playlist_window->width()/2, y_cur-playlist_window->height()-40);
+        }
+        playlist_window->show();
     }
+
 }
 
+std::list <QString> MainWindow::proba()
+{
+    QSqlQuery query;
+    QString groups;
+    std::list <QString> groups_radio;
 
+    query.exec("SELECT groups, name FROM maxradio_table;");
+    while (query.next())
+    {
+        groups = query.value("groups").toString();
+        groups_radio.push_back(groups);
+    }
+    return groups_radio;
+}

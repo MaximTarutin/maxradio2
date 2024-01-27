@@ -14,10 +14,15 @@ DataBaseRadio::~DataBaseRadio()
 std::list<QString> DataBaseRadio::proba()
 {
     std::list <QString> name;
+    QString groups;
+    QSqlQuery query;
 
-    name.push_back("1");
-    name.push_back("3");
-    name.push_back("8");
+    query.exec("SELECT groups, name FROM maxradio_table;");
+    while (query.next())
+    {
+        groups = query.value("groups").toString();
+        name.push_back(groups);
+    }
 
     return name;
 }
@@ -143,3 +148,55 @@ void DataBaseRadio::init_database()
                    "'https://hls.amgradio.ru/radio/rusrockhd.m3u8')");
     }
 }
+
+// ------------------------------- Возвращаем список групп радиостанций ---------------------------------
+
+std::list <QString> DataBaseRadio::read_groups_db()
+{
+    QSqlQuery query;
+    QString groups;
+    std::list <QString> groups_radio;
+
+    query.exec("SELECT groups FROM maxradio_table;");
+    while (query.next())
+    {
+        groups = query.value("groups").toString();
+        groups_radio.push_back(groups);
+    }
+    return groups_radio;
+}
+
+// ------------------------------- Возвращаем список радиостанций ---------------------------------
+
+std::list <QString> DataBaseRadio::read_name_db()
+{
+    QSqlQuery query;
+    QString name;
+    std::list <QString> name_radio;
+
+    query.exec("SELECT name FROM maxradio_table;");
+    while (query.next())
+    {
+        name = query.value("name").toString();
+        name_radio.push_back(name);
+    }
+    return name_radio;
+}
+
+// ------------------------------- Возвращаем список радиостанций ---------------------------------
+
+std::list <QString> DataBaseRadio::read_url_db()
+{
+    QSqlQuery query;
+    QString url;
+    std::list <QString> url_radio;
+
+    query.exec("SELECT url FROM maxradio_table;");
+    while (query.next())
+    {
+        url = query.value("url").toString();
+        url_radio.push_back(url);
+    }
+    return url_radio;
+}
+
