@@ -15,11 +15,17 @@ MainWindow::MainWindow(QWidget *parent)
     database->open_database();                      // Открываем базу данных
     database->init_database();                      // Инициируем таблицы
 
+    // qDebug() << database->read_groups_db();
+    // qDebug() << database->read_name_db();
+    // qDebug() << database->read_url_db();
 
+    playlist_window->get_groups_radio(database->read_groups_db());
+    playlist_window->get_name_radio(database->read_name_db());
+    playlist_window->get_url_radio(database->read_url_db());
 
-    qDebug() << database->read_groups_db();
-    qDebug() << database->read_name_db();
-    qDebug() << database->read_url_db();
+    qDebug() << playlist_window->put_groups_radio();
+    qDebug() << playlist_window->put_name_radio();
+    qDebug() << playlist_window->put_url_radio();
 
     init();
 

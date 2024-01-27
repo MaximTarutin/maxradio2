@@ -33,3 +33,44 @@ PlaylistRadio::~PlaylistRadio()
     delete background;
 }
 
+// ---------------------- Получаем список групп радиостанций и заносим в groupsRadio ---------------------------
+
+void PlaylistRadio::get_groups_radio(std::list <QString> r)
+{
+    groupsRadio = r;
+}
+
+// ---------------------- передаем список групп радиостанций ---------------------------
+
+std::list <QString> PlaylistRadio::put_groups_radio()
+{
+    return groupsRadio;
+}
+
+// ---------------------- Получаем список радиостанций и заносим в nameRadio ---------------------------
+
+void PlaylistRadio::get_name_radio(std::list <QString> r)
+{
+    nameRadio = r;
+}
+
+// ---------------------- передаем список групп радиостанций ---------------------------
+
+std::list <QString> PlaylistRadio::put_name_radio()
+{
+    return nameRadio;
+}
+
+// ---------------------- Получаем список url радиостанций и заносим в urlRadio ---------------------------
+
+void PlaylistRadio::get_url_radio(std::list <QString> r)
+{
+    urlRadio = r;
+}
+
+// ---------------------- передаем список url радиостанций ---------------------------
+
+std::list <QString> PlaylistRadio::put_url_radio()
+{
+    return urlRadio;
+}
