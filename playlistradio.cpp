@@ -40,25 +40,11 @@ void PlaylistRadio::get_groups_radio(std::list <QString> r)
     groupsRadio = r;
 }
 
-// ---------------------- передаем список групп радиостанций ---------------------------
-
-std::list <QString> PlaylistRadio::put_groups_radio()
-{
-    return groupsRadio;
-}
-
 // ---------------------- Получаем список радиостанций и заносим в nameRadio ---------------------------
 
 void PlaylistRadio::get_name_radio(std::list <QString> r)
 {
     nameRadio = r;
-}
-
-// ---------------------- передаем список групп радиостанций ---------------------------
-
-std::list <QString> PlaylistRadio::put_name_radio()
-{
-    return nameRadio;
 }
 
 // ---------------------- Получаем список url радиостанций и заносим в urlRadio ---------------------------
@@ -68,9 +54,39 @@ void PlaylistRadio::get_url_radio(std::list <QString> r)
     urlRadio = r;
 }
 
-// ---------------------- передаем список url радиостанций ---------------------------
+// ------------------------- инициализация плейлиста ---------------------------------
 
-std::list <QString> PlaylistRadio::put_url_radio()
+void PlaylistRadio::init()
 {
-    return urlRadio;
+    // Очищаем списки
+
+    ui->comboBox_rok->clear();      ui->comboBox_rok->addItem("Рок");
+    ui->comboBox_pop->clear();      ui->comboBox_pop->addItem("Поп");
+    ui->comboBox_other->clear();    ui->comboBox_other->addItem("Другое");
+    ui->comboBox_news->clear();     ui->comboBox_news->addItem("Новости");
+    ui->comboBox_shanson->clear();  ui->comboBox_shanson->addItem("Шансон");
+    ui->comboBox_classic->clear();  ui->comboBox_classic->addItem("Классика");
+    ui->comboBox_hiphop->clear();   ui->comboBox_hiphop->addItem("Реп, хип-хоп");
+    ui->comboBox_dance->clear();    ui->comboBox_dance->addItem("Танцевальная");
+    ui->comboBox_kind->clear();     ui->comboBox_kind->addItem("Детское");
+    ui->comboBox_humor->clear();    ui->comboBox_humor->addItem("Юмор");
+
+    // Проходимся по двум спискам одновременно и заполняем плейлист
+
+    for(std::list<QString>::iterator it1=groupsRadio.begin(), it2=nameRadio.begin();
+         (it1!=groupsRadio.end())&&(it2!=nameRadio.end());
+         ++it1, ++it2)
+    {
+        qDebug() << *it1 << " : " << *it2;
+        if (*it1=="Рок") this->ui->comboBox_rok->addItem(*it2);
+        if (*it1=="Поп") this->ui->comboBox_pop->addItem(*it2);
+        if (*it1=="Шансон") this->ui->comboBox_shanson->addItem(*it2);
+        if (*it1=="Танцевальная") this->ui->comboBox_dance->addItem(*it2);
+        if (*it1=="Реп, хип-хоп") this->ui->comboBox_hiphop->addItem(*it2);
+        if (*it1=="Новости") this->ui->comboBox_news->addItem(*it2);
+        if (*it1=="Юмор") this->ui->comboBox_humor->addItem(*it2);
+        if (*it1=="Детское") this->ui->comboBox_kind->addItem(*it2);
+        if (*it1=="Классика") this->ui->comboBox_classic->addItem(*it2);
+        if (*it1=="Другое") this->ui->comboBox_other->addItem(*it2);
+    }
 }

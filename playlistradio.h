@@ -17,11 +17,9 @@ public:
     ~PlaylistRadio();
 
     void get_groups_radio(std::list <QString> r);   // получаем список групп радиостанций
-    std::list <QString> put_groups_radio();         // передаем список радиостанций
     void get_name_radio(std::list <QString> r);     // получаем список групп радиостанций
-    std::list <QString> put_name_radio();           // передаем список радиостанций
     void get_url_radio(std::list <QString> r);      // получаем список групп радиостанций
-    std::list <QString> put_url_radio();           // передаем список радиостанций
+    void init();
 
 private:
     Ui::PlaylistRadio *ui;

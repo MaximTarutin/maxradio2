@@ -15,18 +15,6 @@ MainWindow::MainWindow(QWidget *parent)
     database->open_database();                      // Открываем базу данных
     database->init_database();                      // Инициируем таблицы
 
-    // qDebug() << database->read_groups_db();
-    // qDebug() << database->read_name_db();
-    // qDebug() << database->read_url_db();
-
-    playlist_window->get_groups_radio(database->read_groups_db());
-    playlist_window->get_name_radio(database->read_name_db());
-    playlist_window->get_url_radio(database->read_url_db());
-
-    qDebug() << playlist_window->put_groups_radio();
-    qDebug() << playlist_window->put_name_radio();
-    qDebug() << playlist_window->put_url_radio();
-
     init();
 
     connect(exit_action,    &QAction::triggered,            this,   &MainWindow::exit_of_programm);     // выход из программы
@@ -78,6 +66,11 @@ void MainWindow::init_size()
 
 void MainWindow::show_list_radio(QSystemTrayIcon::ActivationReason r)
 {
+    playlist_window->get_groups_radio(database->read_groups_db()); // читаем данные из базы данных
+    playlist_window->get_name_radio(database->read_name_db());
+    playlist_window->get_url_radio(database->read_url_db());
+
+    playlist_window->init();
 
     if (r==QSystemTrayIcon::Trigger)
     {
