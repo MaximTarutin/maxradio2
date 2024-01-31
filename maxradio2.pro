@@ -12,12 +12,14 @@ SOURCES += \
     databaseradio.cpp \
     main.cpp \
     mainwindow.cpp \
-    playlistradio.cpp
+    playlistradio.cpp \
+    radioplayer.cpp
 
 HEADERS += \
     databaseradio.h \
     mainwindow.h \
-    playlistradio.h
+    playlistradio.h \
+    radioplayer.h
 
 FORMS += \
     playlistradio.ui

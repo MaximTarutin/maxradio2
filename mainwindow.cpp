@@ -11,11 +11,13 @@ MainWindow::MainWindow(QWidget *parent)
     exit_action =     new QAction("Выход", this);
     editor_action =   new QAction("Редактор радиостанций", this);
     playlist_window = new PlaylistRadio();
+    radio =           new RadioPlayer();
 
     database->open_database();                      // Открываем базу данных
     database->init_database();                      // Инициируем таблицы
 
     init();
+    //radio->play_radio("http://nashe.streamr.ru/nashe-128.mp3");
 
     connect(exit_action,    &QAction::triggered,            this,   &MainWindow::exit_of_programm);     // выход из программы
     connect(trayIcon,       &QSystemTrayIcon::activated,    this,   &MainWindow::show_list_radio);      // клик по иконке
@@ -24,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete radio;
+    delete playlist_window;
     delete editor_action;
     delete exit_action;
     delete menu;

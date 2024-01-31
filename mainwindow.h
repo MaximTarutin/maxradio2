@@ -9,6 +9,7 @@
 #include <QScreen>
 #include "databaseradio.h"
 #include "playlistradio.h"
+#include "radioplayer.h"
 
 class MainWindow : public QMainWindow
 {
@@ -26,10 +27,10 @@ private:
     QAction             *editor_action;             // пункт меню открыть плейлист
     PlaylistRadio       *playlist_window;           // окно плейлиста
     QScreen             *screen;
+    RadioPlayer         *radio;                     // плеер радио
     int                 size_w;                     // ширина экрана
     int                 size_h;                     // высота экрана
     bool                FLAG_SHOW;                  // видимость playlist_window
-
 
 private slots:
     void init();                                                // инициализация программы
