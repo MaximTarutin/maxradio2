@@ -25,6 +25,43 @@ PlaylistRadio::PlaylistRadio(QWidget *parent) :
                                          "border-image: url(:/res/play.png);");
     this->ui->Button_stop->setStyleSheet("background-color: rgba(255, 255, 255, 0); "
                                          "border-image: url(:/res/stop-d.png);");
+
+    connect(ui->comboBox_classic, &QComboBox::currentTextChanged,
+            this, [this](){emit name_signal(ui->comboBox_classic->currentText());});    // сигналы с названием радио
+    connect(ui->comboBox_dance, &QComboBox::currentTextChanged,
+           this, [this](){emit name_signal(ui->comboBox_dance->currentText());});
+    connect(ui->comboBox_hiphop, &QComboBox::currentTextChanged,
+            this, [this](){emit name_signal(ui->comboBox_hiphop->currentText());});
+    connect(ui->comboBox_humor, &QComboBox::currentTextChanged,
+            this, [this](){emit name_signal(ui->comboBox_humor->currentText());});
+    connect(ui->comboBox_kind, &QComboBox::currentTextChanged,
+            this, [this](){emit name_signal(ui->comboBox_kind->currentText());});
+    connect(ui->comboBox_news, &QComboBox::currentTextChanged,
+            this, [this](){emit name_signal(ui->comboBox_news->currentText());});
+    connect(ui->comboBox_other, &QComboBox::currentTextChanged,
+           this, [this](){emit name_signal(ui->comboBox_other->currentText());});
+    connect(ui->comboBox_pop, &QComboBox::currentTextChanged,
+            this, [this](){emit name_signal(ui->comboBox_pop->currentText());});
+    connect(ui->comboBox_rok, &QComboBox::currentTextChanged,
+            this, [this](){emit name_signal(ui->comboBox_rok->currentText());});
+    connect(ui->comboBox_shanson, &QComboBox::currentTextChanged,
+            this, [this](){emit name_signal(ui->comboBox_shanson->currentText());});
+    connect(ui->Button_play, &QPushButton::clicked, this, [this] ()
+            {
+                emit play_stop_signal(true);
+                ui->Button_play->setStyleSheet("background-color: rgba(255, 255, 255, 0); "
+                                             "border-image: url(:/res/play.png);");
+                ui->Button_stop->setStyleSheet("background-color: rgba(255, 255, 255, 0); "
+                                             "border-image: url(:/res/stop-d.png);");
+            });                                                                                 // нажата кнопка play
+    connect(ui->Button_stop, &QPushButton::clicked, this, [this] ()
+            {
+                emit play_stop_signal(false);
+                ui->Button_play->setStyleSheet("background-color: rgba(255, 255, 255, 0); "
+                                            "border-image: url(:/res/play-d.png);");
+                ui->Button_stop->setStyleSheet("background-color: rgba(255, 255, 255, 0); "
+                                            "border-image: url(:/res/stop.png);");
+            });                                                                                 // нажата кнопка stop
 }
 
 PlaylistRadio::~PlaylistRadio()
@@ -77,7 +114,6 @@ void PlaylistRadio::init()
          (it1!=groupsRadio.end())&&(it2!=nameRadio.end());
          ++it1, ++it2)
     {
-        qDebug() << *it1 << " : " << *it2;
         if (*it1=="Рок") this->ui->comboBox_rok->addItem(*it2);
         if (*it1=="Поп") this->ui->comboBox_pop->addItem(*it2);
         if (*it1=="Шансон") this->ui->comboBox_shanson->addItem(*it2);
@@ -90,3 +126,4 @@ void PlaylistRadio::init()
         if (*it1=="Другое") this->ui->comboBox_other->addItem(*it2);
     }
 }
+

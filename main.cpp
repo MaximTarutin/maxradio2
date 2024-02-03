@@ -6,6 +6,11 @@
 
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_UNIX
+    setenv("QT_MEDIA_BACKEND", "gstreamer",50); // будем использовать серверную часть gstreamer, вместо
+                                                // ffmpeg, для нормального отображения тегов url-адреса
+#endif
+
     QApplication a(argc, argv);
 
 // Проверим не запущен ли уже один экземпляр программы, и не даем запустится второй раз

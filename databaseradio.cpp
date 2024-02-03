@@ -200,3 +200,15 @@ std::list <QString> DataBaseRadio::read_url_db()
     return url_radio;
 }
 
+// ------------------------------ Возвращает url по названию радио ----------------------------------
+
+QString DataBaseRadio::get_url_radio(QString n)
+{
+    QSqlQuery query;
+    QString url;
+
+    query.exec("SELECT url FROM maxradio_table WHERE name='"+n+"'");
+    query.next();
+    url = query.value("url").toString();
+    return url;
+}

@@ -17,11 +17,12 @@ MainWindow::MainWindow(QWidget *parent)
     database->init_database();                      // Инициируем таблицы
 
     init();
-    //radio->play_radio("http://nashe.streamr.ru/nashe-128.mp3");
 
     connect(exit_action,    &QAction::triggered,            this,   &MainWindow::exit_of_programm);     // выход из программы
     connect(trayIcon,       &QSystemTrayIcon::activated,    this,   &MainWindow::show_list_radio);      // клик по иконке
-
+    connect(playlist_window, &PlaylistRadio::name_signal,   this,   &MainWindow::get_url_radio);        // получаем название выбранного радио
+    connect(radio, &RadioPlayer::positionChanged, this, &MainWindow::iconChanged);                      // меняем цвет иконки
+    connect(playlist_window, &PlaylistRadio::play_stop_signal, this, &MainWindow::play_stop);           // нажатие кнопок в плейлисте
 }
 
 MainWindow::~MainWindow()
@@ -70,14 +71,14 @@ void MainWindow::init_size()
 
 void MainWindow::show_list_radio(QSystemTrayIcon::ActivationReason r)
 {
-    playlist_window->get_groups_radio(database->read_groups_db()); // читаем данные из базы данных
-    playlist_window->get_name_radio(database->read_name_db());
+    playlist_window->get_groups_radio(database->read_groups_db());  // читаем данные из базы данных
+    playlist_window->get_name_radio(database->read_name_db());      // и формируем плейлист
     playlist_window->get_url_radio(database->read_url_db());
 
-    playlist_window->init();
+    playlist_window->init();                                        // инициализация плейлиста
 
-    if (r==QSystemTrayIcon::Trigger)
-    {
+    if (r==QSystemTrayIcon::Trigger)            // расположение окна плейлиста в зависимости от
+    {                                           // расположения панели
         int x_cur, y_cur;
         x_cur = QCursor::pos().x();
         y_cur = QCursor::pos().y();
@@ -94,17 +95,46 @@ void MainWindow::show_list_radio(QSystemTrayIcon::ActivationReason r)
 
 }
 
-std::list <QString> MainWindow::proba()
-{
-    QSqlQuery query;
-    QString groups;
-    std::list <QString> groups_radio;
+// ------------------------ Получаем url радио и воспроизводим его -----------------------------------
 
-    query.exec("SELECT groups, name FROM maxradio_table;");
-    while (query.next())
-    {
-        groups = query.value("groups").toString();
-        groups_radio.push_back(groups);
-    }
-    return groups_radio;
+void MainWindow::get_url_radio(QString n)
+{
+    QString m = database->get_url_radio(n);
+    if (m=="") return;
+    radio->play_radio(m);
 }
+
+// -------------------------------- Меняем цвет иконки -----------------------------------------------
+
+void MainWindow::iconChanged(bool v)
+{
+    if(v)
+    {
+        QIcon trayImage(":/res/radio-color.png");
+        trayIcon->setIcon(trayImage);
+    } else
+    {
+        QIcon trayImage(":/res/radio-gray.png");
+        trayIcon->setIcon(trayImage);
+    }
+    trayIcon->show();
+}
+
+// ------------------------------- нажатие кнопок play и stop в окне плейлиста ----------------------
+
+void MainWindow::play_stop(bool v)
+{
+    if(v)
+    {
+        radio->play();
+        QIcon trayImage(":/res/radio-color.png");
+        trayIcon->setIcon(trayImage);
+    }
+    else
+    {
+        radio->stop();
+        QIcon trayImage(":/res/radio-gray.png");
+        trayIcon->setIcon(trayImage);
+    }
+}
+

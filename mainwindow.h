@@ -37,8 +37,9 @@ private slots:
     void exit_of_programm();                                    // выход из программы
     void show_list_radio(QSystemTrayIcon::ActivationReason);    // Показать список радиостанций
     void init_size();                                           // Инициализация переменных size_w, size_h
-
-    std::list <QString> proba();
+    void get_url_radio(QString n);                              // получаем url выбранного радио из базы данных
+    void iconChanged(bool v);                                   // меняем цвет иконки в зависимости от состояния радио
+    void play_stop(bool v);                                     // нажатие кнопок в плейлисте
 };
 
 #endif // MAINWINDOW_H
