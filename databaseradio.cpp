@@ -92,16 +92,18 @@ void DataBaseRadio::init_database()
         query.exec("INSERT INTO maxradio_table (groups, name, url)"
                    "VALUES ('Поп', 'Русское радио', "
                    "'https://rusradio.hostingradio.ru/rusradio96.aacp')");
+        query.exec("INSERT INTO maxradio_table (groups, name, url) "
+                   "VALUES ('Поп', 'Зайцев FM - Pop','https://zaycevfm.cdnvideo.ru/ZaycevFM_pop_128.mp3')");
 
         query.exec("INSERT INTO maxradio_table (groups, name, url) "
-                   "VALUES ('Реп, хип-хоп', 'Зайцев FM - Rap','https://str1.pcradio.ru/rad_zcvfmrp-med')");
+                   "VALUES ('Реп, хип-хоп', 'Зайцев FM - Rap','https://zaycevfm.cdnvideo.ru/ZaycevFM_rap_128.mp3')");
 
         query.exec("INSERT INTO maxradio_table (groups, name, url) "
                    "VALUES ('Танцевальная', 'NRJ',"
                    "'https://srv21.gpmradio.ru:8443/stream/air/aac/64/99')");
         query.exec("INSERT INTO maxradio_table (groups, name, url) "
                    "VALUES ('Танцевальная', 'DFM',"
-                   "'https://str1.pcradio.ru/dfm_moscow-med')");
+                   "'http://dfm.hostingradio.ru/dfm96.aacp')");
 
         query.exec("INSERT INTO maxradio_table (groups, name, url) "
                    "VALUES ('Шансон', 'радио Шансон','http://chanson.hostingradio.ru:8041/chanson128.mp3')");
@@ -121,7 +123,7 @@ void DataBaseRadio::init_database()
         query.exec("INSERT INTO maxradio_table (groups, name, url) "
                    "VALUES ('Детское', 'Детское радио','https://srv21.gpmradio.ru:8443/stream/air/aac/64/199')");
         query.exec("INSERT INTO maxradio_table (groups, name, url) "
-                   "VALUES ('Детское', 'Детский хит','https://str1.pcradio.ru/rad_mgdt-med')");
+                   "VALUES ('Детское', 'Детский хит','https://stream05.pcradio.ru/rad_mgdt-med')");
         query.exec("INSERT INTO maxradio_table (groups, name, url) "
                    "VALUES ('Детское', 'Мульти-пульти','https://str1.pcradio.ru/Kinder-med')");
 

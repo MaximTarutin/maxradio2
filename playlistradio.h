@@ -20,7 +20,7 @@ public:
     void get_groups_radio(std::list <QString> r);   // получаем список групп радиостанций
     void get_name_radio(std::list <QString> r);     // получаем список групп радиостанций
     void get_url_radio(std::list <QString> r);      // получаем список групп радиостанций
-    void init();
+    void init();                                    // инициализация плейлиста
 
 private:
     Ui::PlaylistRadio *ui;
@@ -30,6 +30,10 @@ private:
     std::list <QString>  groupsRadio;               // список групп радиостанций
     std::list <QString>  nameRadio;                 // список радиостанций
     std::list <QString>  urlRadio;                  // список url радиостанций
+    QString              currentRadio;              // текущее радио
+
+private slots:
+    void show_name_radio(QString name);             // Показываем название выбранной радиостанции
 
 signals:
     void name_signal(QString);                      // Сигнал передает название радио

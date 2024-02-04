@@ -17,12 +17,18 @@ MainWindow::MainWindow(QWidget *parent)
     database->init_database();                      // Инициируем таблицы
 
     init();
+    playlist_window->get_groups_radio(database->read_groups_db());  // читаем данные из базы данных
+    playlist_window->get_name_radio(database->read_name_db());      // и формируем плейлист
+    playlist_window->get_url_radio(database->read_url_db());
+
+    playlist_window->init();
 
     connect(exit_action,    &QAction::triggered,            this,   &MainWindow::exit_of_programm);     // выход из программы
     connect(trayIcon,       &QSystemTrayIcon::activated,    this,   &MainWindow::show_list_radio);      // клик по иконке
     connect(playlist_window, &PlaylistRadio::name_signal,   this,   &MainWindow::get_url_radio);        // получаем название выбранного радио
     connect(radio, &RadioPlayer::positionChanged, this, &MainWindow::iconChanged);                      // меняем цвет иконки
     connect(playlist_window, &PlaylistRadio::play_stop_signal, this, &MainWindow::play_stop);           // нажатие кнопок в плейлисте
+    connect(radio,  &RadioPlayer::play_track,   this,   &MainWindow::track_name);                       // ловим название трека
 }
 
 MainWindow::~MainWindow()
@@ -67,16 +73,10 @@ void MainWindow::init_size()
     size_h = size.height();                                     // Высота экрана
 }
 
-// ----------------------------- Список радиостанций ----------------------------------
+// ----------------------------- Показываем окно плейлиста ----------------------------------
 
 void MainWindow::show_list_radio(QSystemTrayIcon::ActivationReason r)
 {
-    playlist_window->get_groups_radio(database->read_groups_db());  // читаем данные из базы данных
-    playlist_window->get_name_radio(database->read_name_db());      // и формируем плейлист
-    playlist_window->get_url_radio(database->read_url_db());
-
-    playlist_window->init();                                        // инициализация плейлиста
-
     if (r==QSystemTrayIcon::Trigger)            // расположение окна плейлиста в зависимости от
     {                                           // расположения панели
         int x_cur, y_cur;
@@ -92,16 +92,15 @@ void MainWindow::show_list_radio(QSystemTrayIcon::ActivationReason r)
         }
         playlist_window->show();
     }
-
 }
 
 // ------------------------ Получаем url радио и воспроизводим его -----------------------------------
 
-void MainWindow::get_url_radio(QString n)
+void MainWindow::get_url_radio(QString name)
 {
-    QString m = database->get_url_radio(n);
-    if (m=="") return;
-    radio->play_radio(m);
+    QString url = database->get_url_radio(name);
+    if (url=="") return;
+    radio->play_radio(url);
 }
 
 // -------------------------------- Меняем цвет иконки -----------------------------------------------
@@ -120,7 +119,7 @@ void MainWindow::iconChanged(bool v)
     trayIcon->show();
 }
 
-// ------------------------------- нажатие кнопок play и stop в окне плейлиста ----------------------
+// --------------- нажатие кнопок play и stop в окне плейлиста -------------------
 
 void MainWindow::play_stop(bool v)
 {
@@ -138,3 +137,9 @@ void MainWindow::play_stop(bool v)
     }
 }
 
+// ---------------------- Показываем текущую композицию ---------------------------
+
+void MainWindow::track_name(QString name)
+{
+    trayIcon->setToolTip(name);
+}
