@@ -7,6 +7,7 @@
 #include <QMenu>
 #include <QAction>
 #include <QScreen>
+#include <QString>
 #include "databaseradio.h"
 #include "playlistradio.h"
 #include "radioplayer.h"
@@ -18,6 +19,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    QString nameRadio;
 
 private:
     QSystemTrayIcon     *trayIcon;                  // иконка трее
@@ -31,6 +34,7 @@ private:
     int                 size_w;                     // ширина экрана
     int                 size_h;                     // высота экрана
     bool                FLAG_SHOW;                  // видимость playlist_window
+
 
 private slots:
     void init();                                                // инициализация программы

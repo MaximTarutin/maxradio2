@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     editor_action =   new QAction("Редактор радиостанций", this);
     playlist_window = new PlaylistRadio();
     radio =           new RadioPlayer();
+    nameRadio = "";
 
     database->open_database();                      // Открываем базу данных
     database->init_database();                      // Инициируем таблицы
@@ -101,6 +102,7 @@ void MainWindow::get_url_radio(QString name)
     QString url = database->get_url_radio(name);
     if (url=="") return;
     radio->play_radio(url);
+    nameRadio = name;
 }
 
 // -------------------------------- Меняем цвет иконки -----------------------------------------------
@@ -141,5 +143,7 @@ void MainWindow::play_stop(bool v)
 
 void MainWindow::track_name(QString name)
 {
-    trayIcon->setToolTip(name);
+    playlist_window->show_track_label(name);
+    name=nameRadio+"\n"+name;
+    trayIcon->setToolTip(name);    
 }

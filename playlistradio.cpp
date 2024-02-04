@@ -10,6 +10,7 @@ PlaylistRadio::PlaylistRadio(QWidget *parent) :
 
     background =        new QLabel(this);               // Фон
     runstring =         new QLabel(ui->track_label);    // Бегущая строка
+    runstring->show();
 
     background->resize(this->width(), this->height());
     background->lower();
@@ -149,4 +150,15 @@ void PlaylistRadio::show_name_radio(QString name)
     ui->comboBox_pop->setCurrentIndex(0);
     ui->comboBox_rok->setCurrentIndex(0);
     ui->comboBox_shanson->setCurrentIndex(0);
+}
+
+// ------------------ Показываем название текущего трека -----------------------------------
+
+void PlaylistRadio::show_track_label(QString name)
+{
+    static int count;
+    count=count-3;
+    runstring->setText(name);
+    if (count <= -190) count = 190;
+    runstring->move(count, 5);
 }

@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QLabel>
-#include <map>
 
 namespace Ui {
 class PlaylistRadio;
@@ -21,6 +20,7 @@ public:
     void get_name_radio(std::list <QString> r);     // получаем список групп радиостанций
     void get_url_radio(std::list <QString> r);      // получаем список групп радиостанций
     void init();                                    // инициализация плейлиста
+    void show_track_label(QString name);             // Показываем название текущего трека
 
 private:
     Ui::PlaylistRadio *ui;
@@ -34,6 +34,7 @@ private:
 
 private slots:
     void show_name_radio(QString name);             // Показываем название выбранной радиостанции
+
 
 signals:
     void name_signal(QString);                      // Сигнал передает название радио
