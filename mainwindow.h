@@ -12,6 +12,8 @@
 #include "playlistradio.h"
 #include "radioplayer.h"
 
+extern QString      OS;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -26,6 +28,9 @@ private:
     QSystemTrayIcon     *trayIcon;                  // иконка трее
     DataBaseRadio       *database;                  // база данных
     QMenu               *menu;                      // контекстное меню
+    QMenu               *submenu;                   // подменю выбора какую библиотеку использовать
+    QAction             *qt_library;                // библиотека QMediaPlayer
+    QAction             *bass_library;              // библиотека BASS
     QAction             *exit_action;               // пункт меню выход из программы
     QAction             *editor_action;             // пункт меню открыть плейлист
     PlaylistRadio       *playlist_window;           // окно плейлиста
@@ -34,6 +39,7 @@ private:
     int                 size_w;                     // ширина экрана
     int                 size_h;                     // высота экрана
     bool                FLAG_SHOW;                  // видимость playlist_window
+
 
 
 private slots:

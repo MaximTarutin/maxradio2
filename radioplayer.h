@@ -2,27 +2,30 @@
 #define RADIOPLAYER_H
 
 #include <QObject>
-#include <QMediaPlayer>
-#include <QAudioOutput>
-#include <QMediaMetaData>
+#include <QTimer>
+#include "bass.h"
 
-class RadioPlayer: public QMediaPlayer
+class RadioPlayer : public QObject
 {
     Q_OBJECT
 public:
-    RadioPlayer();
+    explicit RadioPlayer(QObject *parent = nullptr);
     ~RadioPlayer();
 
-    QAudioOutput    *audiooutput;
+private:
+    QTimer          *timer;             // таймер считывания метаданных из потока
+    HSTREAM         str;                // поток
+
+private slots:
+    void metadata();                    // считываем метаданные
 
 public:
-    void play_radio(QString url);
-
-private:
-    QString     track_name;             // Название текущей композиции
+    void play();                        // запуск потока
+    void stop();                        // остановить поток
+    void play_radio(QString url);       // запуск радио
 
 signals:
-    void play_track(QString);           // Сигнал передающий название трека
+
 };
 
 #endif // RADIOPLAYER_H

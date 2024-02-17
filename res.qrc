@@ -12,5 +12,6 @@
         <file>res/stop-d.png</file>
         <file>res/stop.png</file>
         <file>res/vborder.png</file>
+        <file>res/galka.png</file>
     </qresource>
 </RCC>

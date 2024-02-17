@@ -1,4 +1,4 @@
-QT       += core gui sql multimedia
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,3 +31,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     res.qrc
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/./release/ -lbass
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/./debug/ -lbass
+else:unix: LIBS += -L$$PWD/./ -lbass
+
+INCLUDEPATH += $$PWD/.
+DEPENDPATH += $$PWD/.
+

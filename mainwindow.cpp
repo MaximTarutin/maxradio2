@@ -5,9 +5,13 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    qDebug() << OS;
     trayIcon =        new QSystemTrayIcon(this);
     database =        new DataBaseRadio();
     menu =            new QMenu(this);
+    submenu =         new QMenu("Выбор библиотеки", menu);
+    qt_library =      new QAction("библиотека Qt", submenu);
+    bass_library =    new QAction("библиотека BASS", submenu);
     exit_action =     new QAction("Выход", this);
     editor_action =   new QAction("Редактор радиостанций", this);
     playlist_window = new PlaylistRadio();
@@ -27,9 +31,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(exit_action,    &QAction::triggered,            this,   &MainWindow::exit_of_programm);     // выход из программы
     connect(trayIcon,       &QSystemTrayIcon::activated,    this,   &MainWindow::show_list_radio);      // клик по иконке
     connect(playlist_window, &PlaylistRadio::name_signal,   this,   &MainWindow::get_url_radio);        // получаем название выбранного радио
-    connect(radio, &RadioPlayer::positionChanged, this, &MainWindow::iconChanged);                      // меняем цвет иконки
-    connect(playlist_window, &PlaylistRadio::play_stop_signal, this, &MainWindow::play_stop);           // нажатие кнопок в плейлисте
-    connect(radio,  &RadioPlayer::play_track,   this,   &MainWindow::track_name);                       // ловим название трека
+    //connect(radio, &RadioPlayer::positionChanged, this, &MainWindow::iconChanged);                      // меняем цвет иконки
+    connect(playlist_window, &PlaylistRadio::play_stop_signal, this, &MainWindow::play_stop);             // нажатие кнопок в плейлисте
+    //connect(radio,  &RadioPlayer::play_track,   this,   &MainWindow::track_name);                       // ловим название трека
 }
 
 MainWindow::~MainWindow()
@@ -38,6 +42,9 @@ MainWindow::~MainWindow()
     delete playlist_window;
     delete editor_action;
     delete exit_action;
+    delete bass_library;
+    delete qt_library;
+    delete submenu;
     delete menu;
     delete database;
     delete trayIcon;
@@ -52,8 +59,23 @@ void MainWindow::init()
     trayIcon->setIcon(trayImage);
     trayIcon->show();
     menu->addAction(editor_action);                              // Формируем меню приложения
+    menu->addMenu(submenu);                                      // выбор используемой библиотеки QMedia или BASS
+    submenu->addAction(qt_library);
+    submenu->addAction(bass_library);
     menu->addSeparator();
     menu->addAction(exit_action);
+
+    if(OS=="Linux")
+    {
+        qt_library->setIcon(QIcon(":/res/galka.png"));
+        bass_library->setIcon(QIcon(""));
+    }
+    if(OS=="Windows")
+    {
+        qt_library->setIcon(QIcon(""));
+        bass_library->setIcon(QIcon(":/res/galka.png"));
+    }
+
     trayIcon->setContextMenu(menu);
 }
 
