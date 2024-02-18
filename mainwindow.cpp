@@ -5,7 +5,6 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    qDebug() << OS;
     trayIcon =        new QSystemTrayIcon(this);
     database =        new DataBaseRadio();
     menu =            new QMenu(this);
@@ -16,7 +15,44 @@ MainWindow::MainWindow(QWidget *parent)
     editor_action =   new QAction("Редактор радиостанций", this);
     playlist_window = new PlaylistRadio();
     radio =           new RadioPlayer();
+
     nameRadio = "";
+
+    library = get_settings();    // читаем настройки программы
+
+    if(library!="BASS" and library!="QMediaPlayer")
+    {
+        if(OS=="Linux")
+        {
+            qt_library->setIcon(QIcon(":/res/galka.png"));
+            bass_library->setIcon(QIcon(":/res/prosrach.png"));
+            radio->set_library("QMediaPlayer");
+            set_settings("QMediaPlayer");
+            library = "QMediaPlayer";
+        }
+        if(OS=="Windows")
+        {
+            bass_library->setIcon(QIcon(":/res/galka.png"));
+            qt_library->setIcon(QIcon(":/res/prosrach.png"));
+            radio->set_library("BASS");
+            set_settings("BASS");
+            library = "BASS";
+        }
+    } else
+    {
+        if(library=="BASS")
+        {
+            bass_library->setIcon(QIcon(":/res/galka.png"));
+            qt_library->setIcon(QIcon(":/res/prosrach.png"));
+            radio->set_library("BASS");
+        }
+        if(library=="QMediaPlayer")
+        {
+            qt_library->setIcon(QIcon(":/res/galka.png"));
+            bass_library->setIcon(QIcon(":/res/prosrach.png"));
+            radio->set_library("QMediaPlayer");
+        }
+    }
 
     database->open_database();                      // Открываем базу данных
     database->init_database();                      // Инициируем таблицы
@@ -31,9 +67,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(exit_action,    &QAction::triggered,            this,   &MainWindow::exit_of_programm);     // выход из программы
     connect(trayIcon,       &QSystemTrayIcon::activated,    this,   &MainWindow::show_list_radio);      // клик по иконке
     connect(playlist_window, &PlaylistRadio::name_signal,   this,   &MainWindow::get_url_radio);        // получаем название выбранного радио
-    //connect(radio, &RadioPlayer::positionChanged, this, &MainWindow::iconChanged);                      // меняем цвет иконки
-    connect(playlist_window, &PlaylistRadio::play_stop_signal, this, &MainWindow::play_stop);             // нажатие кнопок в плейлисте
-    //connect(radio,  &RadioPlayer::play_track,   this,   &MainWindow::track_name);                       // ловим название трека
+    //connect(radio, &RadioPlayer::positionChanged, this, &MainWindow::iconChanged);                    // меняем цвет иконки
+    connect(playlist_window, &PlaylistRadio::play_stop_signal, this, &MainWindow::play_stop);           // нажатие кнопок в плейлисте
+    //connect(radio,  &RadioPlayer::play_track,   this,   &MainWindow::track_name);                     // ловим название трека
+    connect(bass_library,   &QAction::triggered,            this,   &MainWindow::switch_lib_BASS);      // переключаемся на BASS
+    connect(qt_library,     &QAction::triggered,            this,   &MainWindow::switch_lib_Qt);        // переключаемся на Qt
+    connect(editor_action,  &QAction::triggered, this, &MainWindow::editor);
 }
 
 MainWindow::~MainWindow()
@@ -64,18 +103,6 @@ void MainWindow::init()
     submenu->addAction(bass_library);
     menu->addSeparator();
     menu->addAction(exit_action);
-
-    if(OS=="Linux")
-    {
-        qt_library->setIcon(QIcon(":/res/galka.png"));
-        bass_library->setIcon(QIcon(""));
-    }
-    if(OS=="Windows")
-    {
-        qt_library->setIcon(QIcon(""));
-        bass_library->setIcon(QIcon(":/res/galka.png"));
-    }
-
     trayIcon->setContextMenu(menu);
 }
 
@@ -123,6 +150,8 @@ void MainWindow::get_url_radio(QString name)
 {
     QString url = database->get_url_radio(name);
     if (url=="") return;
+    qDebug() << library;
+    radio->init();
     radio->play_radio(url);
     nameRadio = name;
 }
@@ -168,4 +197,58 @@ void MainWindow::track_name(QString name)
     playlist_window->show_track_label(name);
     name=nameRadio+"\n"+name;
     trayIcon->setToolTip(name);    
+}
+
+// --------------------------- Переключаем библиотеку на BASS  ---------------------
+
+void MainWindow::switch_lib_BASS()
+{
+    QString lib = get_settings();
+    if(lib=="BASS") return;
+    set_settings("BASS");
+    library = "BASS";
+    radio->set_library("BASS");
+    bass_library->setIcon(QIcon(":/res/galka.png"));
+    qt_library->setIcon(QIcon(":/res/prosrach.png"));
+}
+
+// -------------------------- Переключаем библиотеку на QMediaPlayer ----------------
+
+void MainWindow::switch_lib_Qt()
+{
+    QString lib = get_settings();
+    if(lib=="QMediaPlayer") return;
+    set_settings("QMediaPlayer");
+    library = "QMediaPlayer";
+    radio->set_library("QMediaPlayer");
+    qt_library->setIcon(QIcon(":/res/galka.png"));
+    bass_library->setIcon(QIcon(":/res/prosrach.png"));
+}
+
+// ------------------------------ Редактор радиостанций ------------------------------
+
+void MainWindow::editor()
+{
+
+}
+
+// ------------------------------ Читаем настройки программы ---------------------------
+
+QString MainWindow::get_settings()
+{
+    settings = new QSettings();
+    QString lib = settings->value("library").toString();
+    delete settings;
+    settings = 0;
+    return lib;
+}
+
+// ----------------- Записываем в настройки какая библиотека используется ---------------
+
+void MainWindow::set_settings(QString name)
+{
+    settings = new QSettings();
+    settings->setValue("library", name);
+    delete settings;
+    settings = 0;
 }

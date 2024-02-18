@@ -8,6 +8,10 @@ QString OS;
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setOrganizationName("MaxTar");
+    QCoreApplication::setOrganizationDomain("maxtar.ru");
+    QCoreApplication::setApplicationName("maxradio2");
+
 #ifdef Q_OS_UNIX
     setenv("QT_MEDIA_BACKEND", "gstreamer",50); // будем использовать серверную часть gstreamer, вместо
                                                 // ffmpeg, для нормального отображения тегов url-адреса

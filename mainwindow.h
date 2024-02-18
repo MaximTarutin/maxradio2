@@ -8,6 +8,8 @@
 #include <QAction>
 #include <QScreen>
 #include <QString>
+#include <QSettings>
+#include <QProcess>
 #include "databaseradio.h"
 #include "playlistradio.h"
 #include "radioplayer.h"
@@ -25,20 +27,22 @@ public:
     QString nameRadio;
 
 private:
-    QSystemTrayIcon     *trayIcon;                  // иконка трее
-    DataBaseRadio       *database;                  // база данных
-    QMenu               *menu;                      // контекстное меню
-    QMenu               *submenu;                   // подменю выбора какую библиотеку использовать
-    QAction             *qt_library;                // библиотека QMediaPlayer
-    QAction             *bass_library;              // библиотека BASS
-    QAction             *exit_action;               // пункт меню выход из программы
-    QAction             *editor_action;             // пункт меню открыть плейлист
-    PlaylistRadio       *playlist_window;           // окно плейлиста
-    QScreen             *screen;
-    RadioPlayer         *radio;                     // плеер радио
-    int                 size_w;                     // ширина экрана
-    int                 size_h;                     // высота экрана
-    bool                FLAG_SHOW;                  // видимость playlist_window
+    QSystemTrayIcon     *trayIcon = 0;                  // иконка трее
+    DataBaseRadio       *database = 0;                  // база данных
+    QMenu               *menu = 0;                      // контекстное меню
+    QMenu               *submenu = 0;                   // подменю выбора какую библиотеку использовать
+    QAction             *qt_library = 0;                // библиотека QMediaPlayer
+    QAction             *bass_library = 0;              // библиотека BASS
+    QAction             *exit_action = 0;               // пункт меню выход из программы
+    QAction             *editor_action = 0;             // пункт меню открыть плейлист
+    PlaylistRadio       *playlist_window = 0;           // окно плейлиста
+    QScreen             *screen = 0;
+    RadioPlayer         *radio = 0;                     // плеер радио
+    QSettings           *settings = 0;                  // настройки программы
+    int                 size_w;                         // ширина экрана
+    int                 size_h;                         // высота экрана
+    bool                FLAG_SHOW;                      // видимость playlist_window
+    QString             library;                        // используемая библиотека BASS or QMediaPlayer
 
 
 
@@ -51,6 +55,11 @@ private slots:
     void iconChanged(bool v);                                   // меняем цвет иконки в зависимости от состояния радио
     void play_stop(bool v);                                     // нажатие кнопок в плейлисте
     void track_name(QString name);                              // Показываем текущую композицию
+    void switch_lib_BASS();                                     // переключаем библиотеку на BASS
+    void switch_lib_Qt();                                       // переключаем библиотеку на Qt
+    void editor();                                              // редактор радиостанций
+    QString get_settings();                                      // читаем какая библиотека из настроек программы
+    void set_settings(QString name);                             // изменяем в настройках библиотеку
 };
 
 #endif // MAINWINDOW_H
