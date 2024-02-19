@@ -67,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(exit_action,     &QAction::triggered,               this,   &MainWindow::exit_of_programm);     // выход из программы
     connect(trayIcon,        &QSystemTrayIcon::activated,       this,   &MainWindow::show_list_radio);      // клик по иконке
     connect(playlist_window, &PlaylistRadio::name_signal,       this,   &MainWindow::get_url_radio);        // получаем название выбранного радио
-    //connect(radio, &RadioPlayer::positionChanged, this, &MainWindow::iconChanged);                        // меняем цвет иконки
+    connect(radio,           &RadioPlayer::isPlaying,           this,   &MainWindow::iconChanged);          // меняем цвет иконки
     connect(playlist_window, &PlaylistRadio::play_stop_signal,  this,   &MainWindow::play_stop);            // нажатие кнопок в плейлисте
     connect(radio,           &RadioPlayer::track_signal,        this,   &MainWindow::get_track_name);       // ловим название трека
     connect(bass_library,    &QAction::triggered,               this,   &MainWindow::switch_lib_BASS);      // переключаемся на BASS
@@ -150,7 +150,7 @@ void MainWindow::get_url_radio(QString name)
 {
     QString url = database->get_url_radio(name);
     if (url=="") return;
-    qDebug() << library;
+    //qDebug() << library;
     radio->init();
     radio->play_radio(url);
     nameRadio = name;
@@ -179,14 +179,10 @@ void MainWindow::play_stop(bool v)
     if(v)
     {
         radio->play();
-        //QIcon trayImage(":/res/radio-color.png");
-        //trayIcon->setIcon(trayImage);
     }
     else
     {
         radio->stop();
-        //QIcon trayImage(":/res/radio-gray.png");
-        //trayIcon->setIcon(trayImage);
     }
 }
 
@@ -210,6 +206,10 @@ void MainWindow::switch_lib_BASS()
     radio->set_library("BASS");
     bass_library->setIcon(QIcon(":/res/galka.png"));
     qt_library->setIcon(QIcon(":/res/prosrach.png"));
+    QIcon trayImage(":/res/radio-gray.png");
+    trayIcon->setIcon(trayImage);
+    trayIcon->show();
+    playlist_window->show_track_label("");
 }
 
 // -------------------------- Переключаем библиотеку на QMediaPlayer ----------------
@@ -223,6 +223,11 @@ void MainWindow::switch_lib_Qt()
     radio->set_library("QMediaPlayer");
     qt_library->setIcon(QIcon(":/res/galka.png"));
     bass_library->setIcon(QIcon(":/res/prosrach.png"));
+    QIcon trayImage(":/res/radio-gray.png");
+    trayIcon->setIcon(trayImage);
+    trayIcon->show();
+    playlist_window->show_track_label("");
+
 }
 
 // ------------------------------ Редактор радиостанций ------------------------------

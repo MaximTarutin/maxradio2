@@ -1,6 +1,7 @@
 #include "radioplayer.h"
 #include <QDebug>
 #include <QSettings>
+#include <cstdlib>
 
 RadioPlayer::RadioPlayer(QObject *parent)
     : QObject{parent}
@@ -73,6 +74,7 @@ void RadioPlayer::stop()
         player->stop();
     }
     timer->stop();
+    emit isPlaying(false);
 }
 
 // ----------------------------- читаем метаданные из потока ----------------------------------
@@ -81,24 +83,21 @@ void RadioPlayer::metadata()
 {
     if(library=="BASS")
     {
-        const char *comments = BASS_ChannelGetTags(str, BASS_TAG_META);
-        if (comments)
-        {
-            const char *s = strstr(comments, "StreamTitle='");
-            if (s) {
-                const char *f = strstr(s, "';");
-                if (f) {
-                    char *track_name = strdup(s + 13);
-                    track_name[f - (s + 13)] = 0;
-                    emit track_signal(track_name);
-                }
-            }
-        }
+        QString *comments;
+        comments = new QString(BASS_ChannelGetTags(str, BASS_TAG_META));
+        comments->chop(2);                  // удаляем 2 последних символа из строки
+        comments->remove(0,13);             // удаляем первые 13 символов строки
+        if(*comments == "") *comments = "no title";
+        emit track_signal(*comments);
+        delete comments;
+       if(BASS_ChannelIsActive(str)) emit isPlaying(true);
     }
     if(library=="QMediaPlayer")
     {
         track_name = player->metaData().value(QMediaMetaData::Title).toString();
+        if(track_name=="") track_name = "no title";
         emit track_signal(track_name);
+        if(player->isPlaying()) emit isPlaying(true);
     }
 }
 

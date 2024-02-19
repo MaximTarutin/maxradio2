@@ -30,6 +30,7 @@ private slots:
 
 signals:
     void track_signal(QString);         // сигнал передает название песни
+    void isPlaying(bool);               // сигнал играет ли сейчас радио
 
 public:
     void play();                        // запуск потока
