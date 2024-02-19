@@ -44,8 +44,6 @@ private:
     bool                FLAG_SHOW;                      // видимость playlist_window
     QString             library;                        // используемая библиотека BASS or QMediaPlayer
 
-
-
 private slots:
     void init();                                                // инициализация программы
     void exit_of_programm();                                    // выход из программы
@@ -58,8 +56,9 @@ private slots:
     void switch_lib_BASS();                                     // переключаем библиотеку на BASS
     void switch_lib_Qt();                                       // переключаем библиотеку на Qt
     void editor();                                              // редактор радиостанций
-    QString get_settings();                                      // читаем какая библиотека из настроек программы
-    void set_settings(QString name);                             // изменяем в настройках библиотеку
+    QString get_settings();                                     // читаем какая библиотека из настроек программы
+    void set_settings(QString name);                            // изменяем в настройках библиотеку
+    void get_track_name(QString name);                          // ловим сигнал с названием песни
 };
 
 #endif // MAINWINDOW_H

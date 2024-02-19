@@ -28,6 +28,9 @@ private:
 private slots:
     void metadata();                    // считываем метаданные
 
+signals:
+    void track_signal(QString);         // сигнал передает название песни
+
 public:
     void play();                        // запуск потока
     void stop();                        // остановить поток
@@ -35,5 +38,7 @@ public:
     void set_library(QString lib);      // устанавливаем значение library
     void init();                        // инициализация проигрывателя
 };
+
+
 
 #endif // RADIOPLAYER_H

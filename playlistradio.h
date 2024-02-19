@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QFont>
 
 namespace Ui {
 class PlaylistRadio;
@@ -31,6 +32,7 @@ private:
     std::list <QString>  nameRadio;                 // список радиостанций
     std::list <QString>  urlRadio;                  // список url радиостанций
     QString              currentRadio;              // текущее радио
+    QFont                font;
 
 private slots:
     void show_name_radio(QString name);             // Показываем название выбранной радиостанции

@@ -10,6 +10,7 @@ PlaylistRadio::PlaylistRadio(QWidget *parent) :
 
     background =        new QLabel(this);               // Фон
     runstring =         new QLabel(ui->track_label);    // Бегущая строка
+    runstring->setStyleSheet(QString("font-size: %1px").arg(20));
     runstring->show();
 
     background->resize(this->width(), this->height());
@@ -159,6 +160,6 @@ void PlaylistRadio::show_track_label(QString name)
     static int count;
     count=count-3;
     runstring->setText(name);
-    if (count <= -190) count = 190;
+    if (count <= -240) count = 240;
     runstring->move(count, 5);
 }

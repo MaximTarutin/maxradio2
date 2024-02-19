@@ -80,7 +80,7 @@ void DataBaseRadio::init_database()
         query.exec("INSERT INTO maxradio_table (groups, name, url) "
                    "VALUES ('Поп', 'Ретро FM', 'http://retroserver.streamr.ru:8043/retro256.mp3')");
         query.exec("INSERT INTO maxradio_table (groups, name, url) "
-                   "VALUES ('Поп', 'Маруся-FM','https://str1.pcradio.ru/marusya_fm-med')");
+                   "VALUES ('Поп', 'Маруся-FM','https://radio-holding.ru:9433/marusya_default')");
         query.exec("INSERT INTO maxradio_table (groups, name, url) "
                    "VALUES ('Поп', 'Радио Ваня','https://icecast-radiovanya.cdnvideo.ru/radiovanya')");
         query.exec("INSERT INTO maxradio_table (groups, name, url) "

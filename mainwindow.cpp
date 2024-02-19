@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     nameRadio = "";
 
-    library = get_settings();    // читаем настройки программы
+    library = get_settings();                           // читаем настройки программы
 
     if(library!="BASS" and library!="QMediaPlayer")
     {
@@ -64,15 +64,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     playlist_window->init();
 
-    connect(exit_action,    &QAction::triggered,            this,   &MainWindow::exit_of_programm);     // выход из программы
-    connect(trayIcon,       &QSystemTrayIcon::activated,    this,   &MainWindow::show_list_radio);      // клик по иконке
-    connect(playlist_window, &PlaylistRadio::name_signal,   this,   &MainWindow::get_url_radio);        // получаем название выбранного радио
-    //connect(radio, &RadioPlayer::positionChanged, this, &MainWindow::iconChanged);                    // меняем цвет иконки
-    connect(playlist_window, &PlaylistRadio::play_stop_signal, this, &MainWindow::play_stop);           // нажатие кнопок в плейлисте
-    //connect(radio,  &RadioPlayer::play_track,   this,   &MainWindow::track_name);                     // ловим название трека
-    connect(bass_library,   &QAction::triggered,            this,   &MainWindow::switch_lib_BASS);      // переключаемся на BASS
-    connect(qt_library,     &QAction::triggered,            this,   &MainWindow::switch_lib_Qt);        // переключаемся на Qt
-    connect(editor_action,  &QAction::triggered, this, &MainWindow::editor);
+    connect(exit_action,     &QAction::triggered,               this,   &MainWindow::exit_of_programm);     // выход из программы
+    connect(trayIcon,        &QSystemTrayIcon::activated,       this,   &MainWindow::show_list_radio);      // клик по иконке
+    connect(playlist_window, &PlaylistRadio::name_signal,       this,   &MainWindow::get_url_radio);        // получаем название выбранного радио
+    //connect(radio, &RadioPlayer::positionChanged, this, &MainWindow::iconChanged);                        // меняем цвет иконки
+    connect(playlist_window, &PlaylistRadio::play_stop_signal,  this,   &MainWindow::play_stop);            // нажатие кнопок в плейлисте
+    connect(radio,           &RadioPlayer::track_signal,        this,   &MainWindow::get_track_name);       // ловим название трека
+    connect(bass_library,    &QAction::triggered,               this,   &MainWindow::switch_lib_BASS);      // переключаемся на BASS
+    connect(qt_library,      &QAction::triggered,               this,   &MainWindow::switch_lib_Qt);        // переключаемся на Qt
+    connect(editor_action,   &QAction::triggered,               this,   &MainWindow::editor);
 }
 
 MainWindow::~MainWindow()
@@ -179,14 +179,14 @@ void MainWindow::play_stop(bool v)
     if(v)
     {
         radio->play();
-        QIcon trayImage(":/res/radio-color.png");
-        trayIcon->setIcon(trayImage);
+        //QIcon trayImage(":/res/radio-color.png");
+        //trayIcon->setIcon(trayImage);
     }
     else
     {
         radio->stop();
-        QIcon trayImage(":/res/radio-gray.png");
-        trayIcon->setIcon(trayImage);
+        //QIcon trayImage(":/res/radio-gray.png");
+        //trayIcon->setIcon(trayImage);
     }
 }
 
@@ -251,4 +251,12 @@ void MainWindow::set_settings(QString name)
     settings->setValue("library", name);
     delete settings;
     settings = 0;
+}
+
+// ----------------------- ловим сигнал с названием песни ------------------------------
+
+void MainWindow::get_track_name(QString name)
+{
+    trayIcon->setToolTip(nameRadio+"\n"+name);
+    playlist_window->show_track_label(name);
 }

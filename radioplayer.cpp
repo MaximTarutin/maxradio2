@@ -7,11 +7,6 @@ RadioPlayer::RadioPlayer(QObject *parent)
 {
 
     timer = new QTimer();
-    // BASS_Init (-1, 44100, 0 , 0, 0);
-    // BASS_SetConfig(BASS_CONFIG_NET_PLAYLIST, 1);
-    // player = new QMediaPlayer(this);
-    // audiooutput = new QAudioOutput();
-    // player->setAudioOutput(audiooutput);
     connect(timer, &QTimer::timeout, this, &RadioPlayer::metadata);
 }
 
@@ -62,8 +57,7 @@ void RadioPlayer::play()
         player->setSource(url_radio);
         player->play();
     }
-
-    timer->start(1000);
+    timer->start(50);
 }
 
 // ------------------------------- остановить воспроизведение --------------------------------
@@ -88,17 +82,24 @@ void RadioPlayer::metadata()
     if(library=="BASS")
     {
         const char *comments = BASS_ChannelGetTags(str, BASS_TAG_META);
-        if(comments)
+        if (comments)
         {
-            qDebug() << comments;
+            const char *s = strstr(comments, "StreamTitle='");
+            if (s) {
+                const char *f = strstr(s, "';");
+                if (f) {
+                    char *track_name = strdup(s + 13);
+                    track_name[f - (s + 13)] = 0;
+                    emit track_signal(track_name);
+                }
+            }
         }
     }
     if(library=="QMediaPlayer")
     {
         track_name = player->metaData().value(QMediaMetaData::Title).toString();
-        qDebug() << track_name;
+        emit track_signal(track_name);
     }
-
 }
 
 // -------------------- включить поток радио по заданному url -----------------------------------
@@ -118,7 +119,7 @@ void RadioPlayer::play_radio(QString url)
         player->setSource(url_radio);
     }
     play();
-    timer->start(1000);
+    timer->start(50);
 }
 
 // --------------------- устанавливаем значение library ----------------------------------------
