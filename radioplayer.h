@@ -23,6 +23,7 @@ private:
     QString         library;            // какая библиотека используется BASS или QMediaPlayer
     QMediaPlayer    *player = 0;        // плеер для Qt
     QAudioOutput    *audiooutput = 0;   // аудиовыход потока Qt
+    QString         *comments = 0;
 
 
 private slots:
