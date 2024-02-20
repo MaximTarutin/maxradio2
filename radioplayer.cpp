@@ -84,13 +84,17 @@ void RadioPlayer::metadata()
     if(library=="BASS")
     {
         comments = new QString(BASS_ChannelGetTags(str, BASS_TAG_META));
-        comments->chop(2);                  // удаляем 2 последних символа из строки
-        comments->remove(0,13);             // удаляем первые 13 символов строки
-        if(*comments == "") *comments = "no title";
-        emit track_signal(*comments);
+        QString temp;
+        temp = *comments;
+        temp = temp.remove("StreamTitle='");
+        temp = temp.remove("';StreamUrl='';");
+        temp = temp.remove("';");
+        if(*comments == "") temp = "no title";
+        emit track_signal(temp);
+        qDebug() << temp;
         delete comments;
         comments = 0;
-       if(BASS_ChannelIsActive(str)) emit isPlaying(true);
+        if(BASS_ChannelIsActive(str)) emit isPlaying(true);
     }
     if(library=="QMediaPlayer")
     {
