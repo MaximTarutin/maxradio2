@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QFont>
+#include <QWheelEvent>
 
 namespace Ui {
 class PlaylistRadio;
@@ -34,13 +35,18 @@ private:
     QString              currentRadio;              // текущее радио
     QFont                font;
 
+protected:
+    void wheelEvent(QWheelEvent *event);            // Колесиком мышки регулирем громкость
+
 private slots:
     void show_name_radio(QString name);             // Показываем название выбранной радиостанции
+    void position_slider();                         // считываем позицию слайдера и передаем сигнал volume
 
 
 signals:
     void name_signal(QString);                      // Сигнал передает название радио
     void play_stop_signal(bool);                    // true - нажата кнопка play, false - stop
+    void volume(float);                             // уровень громкости
 
 };
 

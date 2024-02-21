@@ -6,7 +6,6 @@
 RadioPlayer::RadioPlayer(QObject *parent)
     : QObject{parent}
 {
-
     timer = new QTimer();
     connect(timer, &QTimer::timeout, this, &RadioPlayer::metadata);
 }
@@ -91,7 +90,6 @@ void RadioPlayer::metadata()
         temp = temp.remove("';");
         if(*comments == "") temp = "no title";
         emit track_signal(temp);
-        qDebug() << temp;
         delete comments;
         comments = 0;
         if(BASS_ChannelIsActive(str)) emit isPlaying(true);
@@ -132,4 +130,19 @@ void RadioPlayer::set_library(QString lib)
     library = lib;
     init();
     timer->stop();
+}
+
+// --------------------- меняем уровень громкости ---------------------------------------------
+
+void RadioPlayer::set_volume(float level)
+{
+    if(library == "QMediaPlayer")
+    {
+        player->audioOutput()->setVolume(level/100);
+    }
+
+    if(library == "BASS")
+    {
+        BASS_SetVolume(level/100);
+    }
 }

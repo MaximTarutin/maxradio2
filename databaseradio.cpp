@@ -129,7 +129,7 @@ void DataBaseRadio::init_database()
 
 
         query.exec("INSERT INTO maxradio_table (groups, name, url) "
-                   "VALUES ('Новости', 'Вести FM','https://str1.pcradio.ru/radiovesti_ru-med')");
+                   "VALUES ('Новости', 'Вести FM','https://icecast-vgtrk.cdnvideo.ru/vestifm_mp3_192kbps')");
         query.exec("INSERT INTO maxradio_table (groups, name, url) "
                    "VALUES ('Новости', 'Комерсант FM','http://kommersant77.hostingradio.ru:8016/kommersant64.mp3')");
         query.exec("INSERT INTO maxradio_table (groups, name, url) "

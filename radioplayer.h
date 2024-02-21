@@ -23,7 +23,7 @@ private:
     QString         library;            // какая библиотека используется BASS или QMediaPlayer
     QMediaPlayer    *player = 0;        // плеер для Qt
     QAudioOutput    *audiooutput = 0;   // аудиовыход потока Qt
-    QString         *comments = 0;
+    QString         *comments = 0;      // строка содержащая метаданные потока
 
 
 private slots:
@@ -39,6 +39,7 @@ public:
     void play_radio(QString url);       // запуск радио
     void set_library(QString lib);      // устанавливаем значение library
     void init();                        // инициализация проигрывателя
+    void set_volume(float level);         // регулируем уровень громкости
 };
 
 

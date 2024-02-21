@@ -43,8 +43,6 @@ private:
     int                 size_h;                         // высота экрана
     bool                FLAG_SHOW;                      // видимость playlist_window
     QString             library;                        // используемая библиотека BASS or QMediaPlayer
-    // QString             lib;
-    // QString             url;
 
 private slots:
     void init();                                                // инициализация программы
@@ -61,6 +59,7 @@ private slots:
     QString get_settings();                                     // читаем какая библиотека из настроек программы
     void set_settings(QString name);                            // изменяем в настройках библиотеку
     void get_track_name(QString name);                          // ловим сигнал с названием песни
+    void set_volume(int level);                               // ловим сигнал изменгения уровня громкости
 };
 
 #endif // MAINWINDOW_H

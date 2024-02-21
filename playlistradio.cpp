@@ -23,11 +23,17 @@ PlaylistRadio::PlaylistRadio(QWidget *parent) :
     this->setFocusPolicy(Qt::ClickFocus);
     this->setAttribute(Qt::WA_TranslucentBackground);                       // делаем окно прозрачным
 
+    this->ui->verticalSlider->setValue(50);
+
     this->ui->Button_play->setStyleSheet("background-color: rgba(255, 255, 255, 0); "
                                          "border-image: url(:/res/play.png);");
     this->ui->Button_stop->setStyleSheet("background-color: rgba(255, 255, 255, 0); "
                                          "border-image: url(:/res/stop-d.png);");
 
+
+    connect(ui->verticalSlider, &QSlider::sliderMoved,      this, &PlaylistRadio::position_slider);
+    connect(ui->verticalSlider, &QSlider::sliderPressed,    this, &PlaylistRadio::position_slider);
+    connect(ui->verticalSlider, &QSlider::sliderReleased,   this, &PlaylistRadio::position_slider);
 
     connect(ui->comboBox_classic, &QComboBox::currentTextChanged, this,             // отправляем сигналы с названием радио
             [this]() {show_name_radio(ui->comboBox_classic->currentText());});      // и отображаем название радиостанции
@@ -162,4 +168,35 @@ void PlaylistRadio::show_track_label(QString name)
     runstring->setText(name);
     if (count <= -240) count = 240;
     runstring->move(count, 5);
+}
+
+// ------------------------- Регулировка громкости посылаем сигнал ----------------
+
+void PlaylistRadio::wheelEvent(QWheelEvent *event)
+{
+    float x;
+    x = this->ui->verticalSlider->value();
+    QPoint angle = event->angleDelta()/8;
+    event->accept();
+
+    if(angle.y() > 0)                               // Добавляем громкость
+    {
+        x=x+2;
+        if(x>100) x=100;
+        this->ui->verticalSlider->setValue(x);
+        emit volume(x);
+    } else                                          // Убавляем громкость
+    {
+        x=x-2;
+        if(x<0) x=0;
+        this->ui->verticalSlider->setValue(x);
+        emit volume(x);
+    }
+}
+
+// ---------------- считываем позицию слайдера и передаём сигнал volume -------------
+
+void PlaylistRadio::position_slider()
+{
+    emit volume(this->ui->verticalSlider->value());
 }

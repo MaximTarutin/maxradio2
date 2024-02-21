@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     nameRadio = "";
 
     library = get_settings();                           // читаем настройки программы
+    radio->set_volume(50);
 
     if(library!="BASS" and library!="QMediaPlayer")
     {
@@ -72,7 +73,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(radio,           &RadioPlayer::track_signal,        this,   &MainWindow::get_track_name);       // ловим название трека
     connect(bass_library,    &QAction::triggered,               this,   &MainWindow::switch_lib_BASS);      // переключаемся на BASS
     connect(qt_library,      &QAction::triggered,               this,   &MainWindow::switch_lib_Qt);        // переключаемся на Qt
-    connect(editor_action,   &QAction::triggered,               this,   &MainWindow::editor);
+    connect(editor_action,   &QAction::triggered,               this,   &MainWindow::editor);               // редактор плейлиста
+    connect(playlist_window, &PlaylistRadio::volume,            this,   &MainWindow::set_volume);           // ловим уровень громкости
 }
 
 MainWindow::~MainWindow()
@@ -150,7 +152,6 @@ void MainWindow::get_url_radio(QString name)
 {
     QString url = database->get_url_radio(name);
     if (url=="") return;
-    //qDebug() << library;
     radio->init();
     radio->play_radio(url);
     nameRadio = name;
@@ -243,6 +244,7 @@ QString MainWindow::get_settings()
 {
     settings = new QSettings();
     QString lib = settings->value("library").toString();
+    radio->set_library(lib);
     delete settings;
     settings = 0;
     return lib;
@@ -264,4 +266,11 @@ void MainWindow::get_track_name(QString name)
 {
     trayIcon->setToolTip(nameRadio+"\n"+name);
     playlist_window->show_track_label(name);
+}
+
+// ---------------------- ловим сигнал уровня громкости ---------------------------------
+
+void MainWindow::set_volume(int level)
+{
+    radio->set_volume(level);
 }
