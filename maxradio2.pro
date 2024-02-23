@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     databaseradio.cpp \
+    editlistradio.cpp \
     main.cpp \
     mainwindow.cpp \
     playlistradio.cpp \
@@ -17,11 +18,13 @@ SOURCES += \
 
 HEADERS += \
     databaseradio.h \
+    editlistradio.h \
     mainwindow.h \
     playlistradio.h \
     radioplayer.h
 
 FORMS += \
+    editlistradio.ui \
     playlistradio.ui
 
 # Default rules for deployment.

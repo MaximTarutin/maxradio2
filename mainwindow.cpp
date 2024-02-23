@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     editor_action =   new QAction("Редактор радиостанций", this);
     playlist_window = new PlaylistRadio();
     radio =           new RadioPlayer();
+    editor_window =   new EditlistRadio();
 
     nameRadio = "";
 
@@ -58,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
     database->open_database();                      // Открываем базу данных
     database->init_database();                      // Инициируем таблицы
 
+    init_size();
     init();
     playlist_window->get_groups_radio(database->read_groups_db());  // читаем данные из базы данных
     playlist_window->get_name_radio(database->read_name_db());      // и формируем плейлист
@@ -79,6 +81,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete editor_window;
     delete radio;
     delete playlist_window;
     delete editor_action;
@@ -108,13 +111,6 @@ void MainWindow::init()
     trayIcon->setContextMenu(menu);
 }
 
-// ---------------------------- Выход из программы ----------------------------
-
-void MainWindow::exit_of_programm()
-{
-    exit(0);
-}
-
 // ----------------------------- Инициализация переменных size_w, size_h -----------------------------
 
 void MainWindow::init_size()
@@ -125,75 +121,16 @@ void MainWindow::init_size()
     size_h = size.height();                                     // Высота экрана
 }
 
-// ----------------------------- Показываем окно плейлиста ----------------------------------
+// ------------------------------ Читаем настройки программы ---------------------------
 
-void MainWindow::show_list_radio(QSystemTrayIcon::ActivationReason r)
+QString MainWindow::get_settings()
 {
-    if (r==QSystemTrayIcon::Trigger)            // расположение окна плейлиста в зависимости от
-    {                                           // расположения панели
-        int x_cur, y_cur;
-        x_cur = QCursor::pos().x();
-        y_cur = QCursor::pos().y();
-
-        if(y_cur < size_h/2)
-        {
-            playlist_window->move(x_cur-playlist_window->width()/2, y_cur+40);
-        } else
-        {
-            playlist_window->move(x_cur-playlist_window->width()/2, y_cur-playlist_window->height()-40);
-        }
-        playlist_window->show();
-    }
-}
-
-// ------------------------ Получаем url радио и воспроизводим его -----------------------------------
-
-void MainWindow::get_url_radio(QString name)
-{
-    QString url = database->get_url_radio(name);
-    if (url=="") return;
-    radio->init();
-    radio->play_radio(url);
-    nameRadio = name;
-}
-
-// -------------------------------- Меняем цвет иконки -----------------------------------------------
-
-void MainWindow::iconChanged(bool v)
-{
-    if(v)
-    {
-        QIcon trayImage(":/res/radio-color.png");
-        trayIcon->setIcon(trayImage);
-    } else
-    {
-        QIcon trayImage(":/res/radio-gray.png");
-        trayIcon->setIcon(trayImage);
-    }
-    trayIcon->show();
-}
-
-// --------------- нажатие кнопок play и stop в окне плейлиста -------------------
-
-void MainWindow::play_stop(bool v)
-{
-    if(v)
-    {
-        radio->play();
-    }
-    else
-    {
-        radio->stop();
-    }
-}
-
-// ---------------------- Показываем текущую композицию ---------------------------
-
-void MainWindow::track_name(QString name)
-{
-    playlist_window->show_track_label(name);
-    name=nameRadio+"\n"+name;
-    trayIcon->setToolTip(name);    
+    settings = new QSettings();
+    QString lib = settings->value("library").toString();
+    radio->set_library(lib);
+    delete settings;
+    settings = 0;
+    return lib;
 }
 
 // --------------------------- Переключаем библиотеку на BASS  ---------------------
@@ -231,25 +168,6 @@ void MainWindow::switch_lib_Qt()
 
 }
 
-// ------------------------------ Редактор радиостанций ------------------------------
-
-void MainWindow::editor()
-{
-
-}
-
-// ------------------------------ Читаем настройки программы ---------------------------
-
-QString MainWindow::get_settings()
-{
-    settings = new QSettings();
-    QString lib = settings->value("library").toString();
-    radio->set_library(lib);
-    delete settings;
-    settings = 0;
-    return lib;
-}
-
 // ----------------- Записываем в настройки какая библиотека используется ---------------
 
 void MainWindow::set_settings(QString name)
@@ -258,6 +176,22 @@ void MainWindow::set_settings(QString name)
     settings->setValue("library", name);
     delete settings;
     settings = 0;
+}
+
+// -------------------------------- Меняем цвет иконки -----------------------------------------------
+
+void MainWindow::iconChanged(bool v)
+{
+    if(v)
+    {
+        QIcon trayImage(":/res/radio-color.png");
+        trayIcon->setIcon(trayImage);
+    } else
+    {
+        QIcon trayImage(":/res/radio-gray.png");
+        trayIcon->setIcon(trayImage);
+    }
+    trayIcon->show();
 }
 
 // ----------------------- ловим сигнал с названием песни ------------------------------
@@ -274,3 +208,78 @@ void MainWindow::set_volume(int level)
 {
     radio->set_volume(level);
 }
+
+// ----------------------------- Показываем окно плейлиста ----------------------------------
+
+void MainWindow::show_list_radio(QSystemTrayIcon::ActivationReason r)
+{
+    if (r==QSystemTrayIcon::Trigger)            // расположение окна плейлиста в зависимости от
+    {                                           // расположения панели
+        int x_cur, y_cur;
+        x_cur = QCursor::pos().x();
+        y_cur = QCursor::pos().y();
+
+        if(y_cur < size_h/2)
+        {
+            playlist_window->move(x_cur-playlist_window->width()/2, y_cur+40);
+        } else
+        {
+            playlist_window->move(x_cur-playlist_window->width()/2, y_cur-playlist_window->height()-40);
+        }
+        playlist_window->show();
+    }
+}
+
+
+// ------------------------ Получаем url радио и воспроизводим его -----------------------------------
+
+void MainWindow::get_url_radio(QString name)
+{
+    QString url = database->get_url_radio(name);
+    if (url=="") return;
+    radio->init();
+    radio->play_radio(url);
+    nameRadio = name;
+}
+
+
+// --------------- нажатие кнопок play и stop в окне плейлиста -------------------
+
+void MainWindow::play_stop(bool v)
+{
+    if(v)
+    {
+        radio->play();
+    }
+    else
+    {
+        radio->stop();
+    }
+}
+
+
+// ---------------------- Показываем текущую композицию ---------------------------
+
+void MainWindow::track_name(QString name)
+{
+    playlist_window->show_track_label(name);
+    name=nameRadio+"\n"+name;
+    trayIcon->setToolTip(name);
+}
+
+// ----------------- показываем окно редактора радиостанций -----------------------
+
+void MainWindow::editor()
+{
+    editor_window->show();
+}
+
+
+// ---------------------------- Выход из программы ----------------------------
+
+void MainWindow::exit_of_programm()
+{
+    exit(0);
+}
+
+

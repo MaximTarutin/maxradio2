@@ -13,6 +13,7 @@
 #include "databaseradio.h"
 #include "playlistradio.h"
 #include "radioplayer.h"
+#include "editlistradio.h"
 
 extern QString      OS;
 
@@ -25,6 +26,7 @@ public:
     ~MainWindow();
 
     QString nameRadio;
+
 
 private:
     QSystemTrayIcon     *trayIcon = 0;                  // иконка трее
@@ -43,6 +45,9 @@ private:
     int                 size_h;                         // высота экрана
     bool                FLAG_SHOW;                      // видимость playlist_window
     QString             library;                        // используемая библиотека BASS or QMediaPlayer
+    EditlistRadio       *editor_window = 0;             // редактор плейлиста
+
+
 
 private slots:
     void init();                                                // инициализация программы
@@ -59,7 +64,7 @@ private slots:
     QString get_settings();                                     // читаем какая библиотека из настроек программы
     void set_settings(QString name);                            // изменяем в настройках библиотеку
     void get_track_name(QString name);                          // ловим сигнал с названием песни
-    void set_volume(int level);                               // ловим сигнал изменгения уровня громкости
+    void set_volume(int level);                                 // ловим сигнал изменгения уровня громкости
 };
 
 #endif // MAINWINDOW_H
