@@ -24,6 +24,9 @@ private slots:
     void close_editor();                            // закрыть окно редактора
     void init();                                    // инициализация
 
+signals:
+    void reset_playlist();
+
 };
 
 #endif // EDITLISTRADIO_H

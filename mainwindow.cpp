@@ -67,16 +67,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     playlist_window->init();
 
-    connect(exit_action,     &QAction::triggered,               this,   &MainWindow::exit_of_programm);     // выход из программы
-    connect(trayIcon,        &QSystemTrayIcon::activated,       this,   &MainWindow::show_list_radio);      // клик по иконке
-    connect(playlist_window, &PlaylistRadio::name_signal,       this,   &MainWindow::get_url_radio);        // получаем название выбранного радио
-    connect(radio,           &RadioPlayer::isPlaying,           this,   &MainWindow::iconChanged);          // меняем цвет иконки
-    connect(playlist_window, &PlaylistRadio::play_stop_signal,  this,   &MainWindow::play_stop);            // нажатие кнопок в плейлисте
-    connect(radio,           &RadioPlayer::track_signal,        this,   &MainWindow::get_track_name);       // ловим название трека
-    connect(bass_library,    &QAction::triggered,               this,   &MainWindow::switch_lib_BASS);      // переключаемся на BASS
-    connect(qt_library,      &QAction::triggered,               this,   &MainWindow::switch_lib_Qt);        // переключаемся на Qt
-    connect(editor_action,   &QAction::triggered,               this,   &MainWindow::editor);               // редактор плейлиста
-    connect(playlist_window, &PlaylistRadio::volume,            this,   &MainWindow::set_volume);           // ловим уровень громкости
+    connect(exit_action,     &QAction::triggered,               this,   &MainWindow::exit_of_programm);         // выход из программы
+    connect(trayIcon,        &QSystemTrayIcon::activated,       this,   &MainWindow::show_list_radio);          // клик по иконке
+    connect(playlist_window, &PlaylistRadio::name_signal,       this,   &MainWindow::get_url_radio);            // получаем название выбранного радио
+    connect(radio,           &RadioPlayer::isPlaying,           this,   &MainWindow::iconChanged);              // меняем цвет иконки
+    connect(playlist_window, &PlaylistRadio::play_stop_signal,  this,   &MainWindow::play_stop);                // нажатие кнопок в плейлисте
+    connect(radio,           &RadioPlayer::track_signal,        this,   &MainWindow::get_track_name);           // ловим название трека
+    connect(bass_library,    &QAction::triggered,               this,   &MainWindow::switch_lib_BASS);          // переключаемся на BASS
+    connect(qt_library,      &QAction::triggered,               this,   &MainWindow::switch_lib_Qt);            // переключаемся на Qt
+    connect(editor_action,   &QAction::triggered,               this,   &MainWindow::editor);                   // редактор плейлиста
+    connect(playlist_window, &PlaylistRadio::volume,            this,   &MainWindow::set_volume);               // ловим уровень громкости
+    connect(editor_window,   &EditlistRadio::reset_playlist,    this,   [this]() {database->reset_database();});// сбросить базу
 }
 
 MainWindow::~MainWindow()

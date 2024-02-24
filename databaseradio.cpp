@@ -185,7 +185,7 @@ std::list <QString> DataBaseRadio::read_name_db()
     return name_radio;
 }
 
-// ------------------------------- Возвращаем список радиостанций ---------------------------------
+// ----------------------- Возвращаем список url адресов радиостанций ------------------------------
 
 std::list <QString> DataBaseRadio::read_url_db()
 {
@@ -213,4 +213,11 @@ QString DataBaseRadio::get_url_radio(QString n)
     query.next();
     url = query.value("url").toString();
     return url;
+}
+
+// ----------------------------- сброс базы данных -------------------------------------------
+
+void DataBaseRadio::reset_database()
+{
+    exit(37);
 }
