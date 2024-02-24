@@ -219,5 +219,7 @@ QString DataBaseRadio::get_url_radio(QString n)
 
 void DataBaseRadio::reset_database()
 {
-    exit(37);
+    QSqlQuery query;
+    query.exec("DROP TABLE maxradio_table;");
+    init_database();
 }

@@ -106,6 +106,8 @@ void PlaylistRadio::init()
 {
     // Очищаем списки
 
+    qDebug() << "Очистка";
+
     ui->comboBox_humor->clear();    ui->comboBox_humor->addItem("Юмор");
     ui->comboBox_rok->clear();      ui->comboBox_rok->addItem("Рок");
     ui->comboBox_pop->clear();      ui->comboBox_pop->addItem("Поп");

@@ -77,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(qt_library,      &QAction::triggered,               this,   &MainWindow::switch_lib_Qt);            // переключаемся на Qt
     connect(editor_action,   &QAction::triggered,               this,   &MainWindow::editor);                   // редактор плейлиста
     connect(playlist_window, &PlaylistRadio::volume,            this,   &MainWindow::set_volume);               // ловим уровень громкости
-    connect(editor_window,   &EditlistRadio::reset_playlist,    this,   [this]() {database->reset_database();});// сбросить базу
+    connect(editor_window,   &EditlistRadio::reset_playlist,    this,   &MainWindow::reset_playlist);           // сброс плейлиста
 }
 
 MainWindow::~MainWindow()
@@ -275,8 +275,19 @@ void MainWindow::editor()
     editor_window->show();
 }
 
+// --------------- сброс плейлиста к первоначальному состоянию --------------------
 
-// ---------------------------- Выход из программы ----------------------------
+void MainWindow::reset_playlist()
+{
+    database->reset_database();             // удаляем таблицу из базы данных
+    database->init_database();
+    playlist_window->get_groups_radio(database->read_groups_db());  // читаем данные из базы данных
+    playlist_window->get_name_radio(database->read_name_db());      // и формируем плейлист
+    playlist_window->get_url_radio(database->read_url_db());
+    playlist_window->init();
+}
+
+// ---------------------------- Выход из программы --------------------------------
 
 void MainWindow::exit_of_programm()
 {
