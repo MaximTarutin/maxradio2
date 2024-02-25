@@ -7,7 +7,8 @@ EditlistRadio::EditlistRadio(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    background      = new QLabel(this);
+    background =    new QLabel(this);
+
     init();
 
     connect(ui->return_pushButton,  &QPushButton::clicked,  this,   &EditlistRadio::close_editor);          // закрываем окно

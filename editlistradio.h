@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 
+
 namespace Ui {
 class EditlistRadio;
 }

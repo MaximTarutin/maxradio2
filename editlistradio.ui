@@ -3,7 +3,7 @@
  <class>EditlistRadio</class>
  <widget class="QWidget" name="EditlistRadio">
   <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
+   <enum>Qt::WindowModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -630,7 +630,8 @@ border-image: url(:/res/back.png);</string>
          </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgb(255, 0, 0);
-font: 700 italic 12pt &quot;Times New Roman&quot;;</string>
+font: 700 italic 12pt &quot;Times New Roman&quot;;
+border-radius: 12px;</string>
          </property>
          <property name="text">
           <string>СБРОС</string>

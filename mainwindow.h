@@ -10,6 +10,7 @@
 #include <QString>
 #include <QSettings>
 #include <QProcess>
+#include <QMessageBox>
 #include "databaseradio.h"
 #include "playlistradio.h"
 #include "radioplayer.h"
@@ -46,6 +47,7 @@ private:
     bool                FLAG_SHOW;                      // видимость playlist_window
     QString             library;                        // используемая библиотека BASS or QMediaPlayer
     EditlistRadio       *editor_window = 0;             // редактор плейлиста
+    QMessageBox         *message;                       // всплывающие окна
 
 
 

@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     playlist_window = new PlaylistRadio();
     radio =           new RadioPlayer();
     editor_window =   new EditlistRadio();
+    message =         new QMessageBox(editor_window);
 
     nameRadio = "";
 
@@ -279,12 +280,38 @@ void MainWindow::editor()
 
 void MainWindow::reset_playlist()
 {
-    database->reset_database();             // удаляем таблицу из базы данных
-    database->init_database();
-    playlist_window->get_groups_radio(database->read_groups_db());  // читаем данные из базы данных
-    playlist_window->get_name_radio(database->read_name_db());      // и формируем плейлист
-    playlist_window->get_url_radio(database->read_url_db());
-    playlist_window->init();
+    message->setStyleSheet("background-color: cyan; color: black; "
+                           "font: 700 italic 14pt 'Times New Roman';");
+    message->setText("<center><font color = 'red'>ВНИМАНИЕ !</center>");
+    message->setInformativeText("<center> Вы действительно хотите сбросить плейлист "
+                                "к первоначальному состоянию? </center>");
+    message->setIcon(QMessageBox::Warning);
+    message->setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
+    message->setWindowFlag(Qt::FramelessWindowHint);
+
+    message->show();
+
+    int ret = message->exec();
+
+    switch (ret)
+    {
+    case QMessageBox::Cancel:
+    {
+        qDebug() << "Canacel";
+        return;
+    }break;
+    case QMessageBox::Ok:
+    {
+        database->reset_database();             // удаляем таблицу из базы данных
+        database->init_database();
+        playlist_window->get_groups_radio(database->read_groups_db());  // читаем данные из базы данных
+        playlist_window->get_name_radio(database->read_name_db());      // и формируем плейлист
+        playlist_window->get_url_radio(database->read_url_db());
+        playlist_window->init();
+        qDebug() << "Ok";
+    } break;
+    }
+
 }
 
 // ---------------------------- Выход из программы --------------------------------
