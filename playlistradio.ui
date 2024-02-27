@@ -274,7 +274,7 @@ border-image: url(:/res/stop.png);</string>
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>40</height>
+         <height>20</height>
         </size>
        </property>
       </spacer>
@@ -614,7 +614,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgb
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>13</height>
+         <height>40</height>
         </size>
        </property>
       </spacer>

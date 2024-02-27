@@ -1,6 +1,6 @@
 #include "playlistradio.h"
 #include "ui_playlistradio.h"
-#include <QDebug>
+//#include <QDebug>
 
 PlaylistRadio::PlaylistRadio(QWidget *parent) :
     QWidget(parent),
@@ -105,8 +105,6 @@ void PlaylistRadio::get_url_radio(std::list <QString> r)
 void PlaylistRadio::init()
 {
     // Очищаем списки
-
-    qDebug() << "Очистка";
 
     ui->comboBox_humor->clear();    ui->comboBox_humor->addItem("Юмор");
     ui->comboBox_rok->clear();      ui->comboBox_rok->addItem("Рок");

@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include <QDebug>
+//#include <QDebug>
 #include <QApplication>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -297,9 +297,8 @@ void MainWindow::reset_playlist()
     {
     case QMessageBox::Cancel:
     {
-        qDebug() << "Canacel";
         return;
-    }break;
+    } break;
     case QMessageBox::Ok:
     {
         database->reset_database();             // удаляем таблицу из базы данных
@@ -308,7 +307,6 @@ void MainWindow::reset_playlist()
         playlist_window->get_name_radio(database->read_name_db());      // и формируем плейлист
         playlist_window->get_url_radio(database->read_url_db());
         playlist_window->init();
-        qDebug() << "Ok";
     } break;
     }
 

@@ -1,5 +1,5 @@
 #include "radioplayer.h"
-#include <QDebug>
+//#include <QDebug>
 #include <QSettings>
 #include <cstdlib>
 

@@ -1,5 +1,5 @@
 #include "databaseradio.h"
-#include <QDebug>
+//#include <QDebug>
 
 DataBaseRadio::DataBaseRadio()
 {
