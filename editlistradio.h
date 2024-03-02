@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QLabel>
-
+#include <QMessageBox>
 
 namespace Ui {
 class EditlistRadio;
@@ -16,18 +16,25 @@ class EditlistRadio : public QWidget
 public:
     explicit EditlistRadio(QWidget *parent = nullptr);
     ~EditlistRadio();
+    void get_name_radio(std::list <QString> r);     // получаем список названия радиостанций
+    void get_group_radio(std::list <QString> r);    // получаем список групп радиостанций
+    void init();                                    // инициализация
 
 private:
     Ui::EditlistRadio   *ui;
     QLabel              *background;                // фон редактора;
+    std::list <QString>  nameRadio;                 // список радиостанций
+    std::list <QString>  groupsRadio;               // список групп радиостанций
+    QMessageBox         *message;                   // всплывающие окна
 
 private slots:
     void close_editor();                            // закрыть окно редактора
-    void init();                                    // инициализация
+    void changed_groups();                          // Обновляем del_combobox с названиями радиостанций
+    void check_delete();                            // Проверка на возможность удаления радио из бд
 
 signals:
-    void reset_playlist();
-
+    void reset_playlist();                          // сигнал сбросить плейлист ловится в mainwindow.cpp
+    void delete_yes();                              // сигнал удалить радиостанцию ловится в mainwindow.cpp
 };
 
 #endif // EDITLISTRADIO_H

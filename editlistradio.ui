@@ -218,7 +218,7 @@ selection-color: rgb(0, 0, 255);</string>
             </size>
            </property>
            <property name="toolTip">
-            <string>Удалить url</string>
+            <string/>
            </property>
            <property name="styleSheet">
             <string notr="true">background-color: rgba(255, 255, 255, 0);
@@ -593,7 +593,7 @@ color: rgb(255, 255, 0);</string>
           </size>
          </property>
          <property name="toolTip">
-          <string>Закрыть редактор</string>
+          <string/>
          </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgba(255, 255, 255, 0);
@@ -626,7 +626,7 @@ border-image: url(:/res/back.png);</string>
           </size>
          </property>
          <property name="toolTip">
-          <string>Сбросить плейлист</string>
+          <string/>
          </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgb(255, 0, 0);

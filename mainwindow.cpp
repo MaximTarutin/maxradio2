@@ -62,11 +62,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     init_size();
     init();
-    playlist_window->get_groups_radio(database->read_groups_db());  // читаем данные из базы данных
-    playlist_window->get_name_radio(database->read_name_db());      // и формируем плейлист
-    playlist_window->get_url_radio(database->read_url_db());
 
+    playlist_window->get_groups_radio(database->read_groups_db());  // читаем данные из базы данных
+    playlist_window->get_name_radio(database->read_name_db());      // и формируем плейлист в playlistradio.cpp
+    playlist_window->get_url_radio(database->read_url_db());
     playlist_window->init();
+
+    editor_window->get_name_radio(database->read_name_db());        // также в editlistradio.cpp
+    editor_window->get_group_radio(database->read_groups_db());
+    editor_window->init();
 
     connect(exit_action,     &QAction::triggered,               this,   &MainWindow::exit_of_programm);         // выход из программы
     connect(trayIcon,        &QSystemTrayIcon::activated,       this,   &MainWindow::show_list_radio);          // клик по иконке
@@ -280,7 +284,7 @@ void MainWindow::editor()
 
 void MainWindow::reset_playlist()
 {
-    message->setStyleSheet("background-color: cyan; color: black; "
+    message->setStyleSheet("background-color: lightblue; color: black; "
                            "font: 700 italic 14pt 'Times New Roman';");
     message->setText("<center><font color = 'red'>ВНИМАНИЕ !</center>");
     message->setInformativeText("<center> Вы действительно хотите сбросить плейлист "

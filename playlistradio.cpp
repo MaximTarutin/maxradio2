@@ -81,7 +81,7 @@ PlaylistRadio::~PlaylistRadio()
 
 // ---------------------- Получаем список групп радиостанций и заносим в groupsRadio ---------------------------
 
-void PlaylistRadio::get_groups_radio(std::list <QString> r)
+void PlaylistRadio::get_groups_radio(std::list <QString> r)     // Метод вызывается в mainwindow.cpp
 {
     groupsRadio = r;
 }
