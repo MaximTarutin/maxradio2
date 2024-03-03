@@ -34,7 +34,7 @@ private slots:
 
 signals:
     void reset_playlist();                          // сигнал сбросить плейлист ловится в mainwindow.cpp
-    void delete_yes();                              // сигнал удалить радиостанцию ловится в mainwindow.cpp
+    void delete_yes(QString nameRadio);             // сигнал удалить радиостанцию ловится в mainwindow.cpp
 };
 
 #endif // EDITLISTRADIO_H

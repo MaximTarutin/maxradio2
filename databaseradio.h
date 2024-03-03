@@ -17,6 +17,7 @@ public:
     void open_database();                       // открываем базу данных
     void init_database();                       // Инициализация базы данных
     void reset_database();                      // сброс базы данных
+    void delete_radio(QString nameRadio);       // удаляем радиостанцию по имени
     std::list <QString> read_groups_db();       // Возвращает список групп радиостанций
     std::list <QString> read_name_db();         // Возвращает список радиостанций
     std::list <QString> read_url_db();          // Возвращает список url радиостанций

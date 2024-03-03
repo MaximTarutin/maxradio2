@@ -83,6 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(editor_action,   &QAction::triggered,               this,   &MainWindow::editor);                   // редактор плейлиста
     connect(playlist_window, &PlaylistRadio::volume,            this,   &MainWindow::set_volume);               // ловим уровень громкости
     connect(editor_window,   &EditlistRadio::reset_playlist,    this,   &MainWindow::reset_playlist);           // сброс плейлиста
+    connect(editor_window,   &EditlistRadio::delete_yes,        this,   &MainWindow::delete_radio);             // удаляем радиостанцию
 }
 
 MainWindow::~MainWindow()
@@ -273,7 +274,7 @@ void MainWindow::track_name(QString name)
     trayIcon->setToolTip(name);
 }
 
-// ----------------- показываем окно редактора радиостанций -----------------------
+// ----------------- показываем окно редактора радиостанций ------------------https://horus.more.tv/v1/events-----
 
 void MainWindow::editor()
 {
@@ -311,9 +312,28 @@ void MainWindow::reset_playlist()
         playlist_window->get_name_radio(database->read_name_db());      // и формируем плейлист
         playlist_window->get_url_radio(database->read_url_db());
         playlist_window->init();
+        editor_window->get_name_radio(database->read_name_db());
+        editor_window->get_group_radio(database->read_groups_db());
+        editor_window->init();
     } break;
     }
 
+}
+
+// ---------------------------- Удаляем радиостанцию из плейлиста ------------------------------
+
+void MainWindow::delete_radio(QString nameRadio)
+{
+    database->delete_radio(nameRadio);
+
+    playlist_window->get_groups_radio(database->read_groups_db());
+    playlist_window->get_name_radio(database->read_name_db());
+    playlist_window->get_url_radio(database->read_url_db());
+    playlist_window->init();
+
+    editor_window->get_name_radio(database->read_name_db());
+    editor_window->get_group_radio(database->read_groups_db());
+    editor_window->init();
 }
 
 // ---------------------------- Выход из программы --------------------------------

@@ -68,6 +68,7 @@ private slots:
     void get_track_name(QString name);                          // ловим сигнал с названием песни
     void set_volume(int level);                                 // ловим сигнал изменгения уровня громкости
     void reset_playlist();                                      // сброс плейлиста в начальное состояние
+    void delete_radio(QString nameRadio);                       // удаляем радиостанцию из плейлиста
 };
 
 #endif // MAINWINDOW_H

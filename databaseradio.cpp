@@ -223,3 +223,11 @@ void DataBaseRadio::reset_database()
     query.exec("DROP TABLE maxradio_table;");
     init_database();
 }
+
+// ----------------------------- удаляем радиостанцию из базы данных по имени ----------------------------
+
+void DataBaseRadio::delete_radio(QString nameRadio)
+{
+    QSqlQuery query;
+    query.exec("DELETE FROM maxradio_table WHERE name='"+nameRadio+"'");
+}

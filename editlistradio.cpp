@@ -33,6 +33,7 @@ void EditlistRadio::init()
     background->setStyleSheet("background-color: rgba(255, 255, 255, 0); border-image: url(:/res/vborder.png); ");
     this->setWindowFlag(Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_TranslucentBackground);                       // делаем окно прозрачным
+    changed_groups();
 }
 
 // --------------------------- закрыть окно редактора -----------------------------
@@ -92,7 +93,41 @@ void EditlistRadio::check_delete()
         return;
     } else
     {
-        emit delete_yes();
+        message->setStyleSheet("background-color: lightblue; color: black; "
+                               "font: 700 italic 14pt 'Times New Roman';");
+        message->setText("<center><font color = 'red'>ВНИМАНИЕ !</center>");
+        message->setInformativeText("<center> Вы действительно хотите удалить "
+                                    "радиостанцию <font color='blue'>"
+                                    "'"+ui->del_comboBox->currentText()+"'"
+                                    "<font color='black'>? </center>");
+        message->setIcon(QMessageBox::Warning);
+        message->setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
+        message->setWindowFlag(Qt::FramelessWindowHint);
+
+        message->show();
+
+        int ret = message->exec();
+
+        switch (ret)
+        {
+        case QMessageBox::Cancel:
+        {
+            return;
+        } break;
+        case QMessageBox::Ok:
+        {
+            message->setStyleSheet("background-color: lightblue; color: black; "
+                                   "font: 700 italic 14pt 'Times New Roman';");
+            message->setText("<center><font color = 'red'>Радиостанция "+ui->del_comboBox->currentText()+"</center>");
+            message->setInformativeText("<center> удалена из плейлиста </center>");
+            message->setIcon(QMessageBox::Information);
+            message->setStandardButtons(QMessageBox::Ok);
+            message->setWindowFlag(Qt::FramelessWindowHint);
+            message->show();
+
+            emit delete_yes(ui->del_comboBox->currentText());
+        } break;
+        }
     }
 }
 
