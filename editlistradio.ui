@@ -477,7 +477,7 @@ color: rgb(255, 255, 0);</string>
          <item row="1" column="0" colspan="5">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="QLineEdit" name="add_url_lineEdit_2">
+            <widget class="QLineEdit" name="add_name_lineEdit">
              <property name="minimumSize">
               <size>
                <width>150</width>

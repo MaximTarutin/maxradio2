@@ -231,3 +231,11 @@ void DataBaseRadio::delete_radio(QString nameRadio)
     QSqlQuery query;
     query.exec("DELETE FROM maxradio_table WHERE name='"+nameRadio+"'");
 }
+
+// ----------------------------- добавляем радиостанцию в базу данных ----------------------------------
+
+void DataBaseRadio::add_radio(QString group, QString name, QString url)
+{
+
+}
+

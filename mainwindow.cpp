@@ -62,15 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     init_size();
     init();
-
-    playlist_window->get_groups_radio(database->read_groups_db());  // читаем данные из базы данных
-    playlist_window->get_name_radio(database->read_name_db());      // и формируем плейлист в playlistradio.cpp
-    playlist_window->get_url_radio(database->read_url_db());
-    playlist_window->init();
-
-    editor_window->get_name_radio(database->read_name_db());        // также в editlistradio.cpp
-    editor_window->get_group_radio(database->read_groups_db());
-    editor_window->init();
+    reload_editor_playlist();                       // формируем список радиостанций из базы данных в окнах редактора и плейлиста
 
     connect(exit_action,     &QAction::triggered,               this,   &MainWindow::exit_of_programm);         // выход из программы
     connect(trayIcon,        &QSystemTrayIcon::activated,       this,   &MainWindow::show_list_radio);          // клик по иконке
@@ -84,10 +76,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(playlist_window, &PlaylistRadio::volume,            this,   &MainWindow::set_volume);               // ловим уровень громкости
     connect(editor_window,   &EditlistRadio::reset_playlist,    this,   &MainWindow::reset_playlist);           // сброс плейлиста
     connect(editor_window,   &EditlistRadio::delete_yes,        this,   &MainWindow::delete_radio);             // удаляем радиостанцию
+    connect(editor_window,   &EditlistRadio::add_radio,         this,   &MainWindow::add_radio);                // добавляем радиостанцию
 }
 
 MainWindow::~MainWindow()
 {
+    delete message;
     delete editor_window;
     delete radio;
     delete playlist_window;
@@ -249,7 +243,6 @@ void MainWindow::get_url_radio(QString name)
     nameRadio = name;
 }
 
-
 // --------------- нажатие кнопок play и stop в окне плейлиста -------------------
 
 void MainWindow::play_stop(bool v)
@@ -263,7 +256,6 @@ void MainWindow::play_stop(bool v)
         radio->stop();
     }
 }
-
 
 // ---------------------- Показываем текущую композицию ---------------------------
 
@@ -308,13 +300,7 @@ void MainWindow::reset_playlist()
     {
         database->reset_database();             // удаляем таблицу из базы данных
         database->init_database();
-        playlist_window->get_groups_radio(database->read_groups_db());  // читаем данные из базы данных
-        playlist_window->get_name_radio(database->read_name_db());      // и формируем плейлист
-        playlist_window->get_url_radio(database->read_url_db());
-        playlist_window->init();
-        editor_window->get_name_radio(database->read_name_db());
-        editor_window->get_group_radio(database->read_groups_db());
-        editor_window->init();
+        reload_editor_playlist();
     } break;
     }
 
@@ -325,7 +311,21 @@ void MainWindow::reset_playlist()
 void MainWindow::delete_radio(QString nameRadio)
 {
     database->delete_radio(nameRadio);
+    reload_editor_playlist();
+}
 
+// ---------------------------- Добавляем радиостанцию в плейлист -------------------------------
+
+void MainWindow::add_radio(QString group, QString name, QString url)
+{
+    database->add_radio(group, name, url);
+    reload_editor_playlist();
+}
+
+// --------------------------- Переинициализация списка радиостанций ---------------------------
+
+void MainWindow::reload_editor_playlist()
+{
     playlist_window->get_groups_radio(database->read_groups_db());
     playlist_window->get_name_radio(database->read_name_db());
     playlist_window->get_url_radio(database->read_url_db());

@@ -14,6 +14,7 @@ EditlistRadio::EditlistRadio(QWidget *parent) :
     connect(ui->reset_pushButton,   &QPushButton::clicked,  this, [this]() {emit reset_playlist();});       // сигнал сбросить плейлист
     connect(ui->Category_comboBox,  &QComboBox::currentIndexChanged, this, &EditlistRadio::changed_groups); // смена группы радио
     connect(ui->del_pushButton,     &QPushButton::clicked,  this,   &EditlistRadio::check_delete);          // удалить радиостанцию
+    connect(ui->add_pushButton,     &QPushButton::clicked,  this,   &EditlistRadio::check_add);             // добавить радиостанцию
 
 }
 
@@ -131,3 +132,50 @@ void EditlistRadio::check_delete()
     }
 }
 
+// --------------------------- проверка можно ли добавить радиостанцию в плейлист --------------------------------
+
+void EditlistRadio::check_add()
+{
+    QString str_name = ui->add_name_lineEdit->text();
+    QString str_url  = ui->add_url_lineEdit->text();
+    QString str_group = ui->Category_comboBox->currentText();
+
+    if(ui->Category_comboBox->currentIndex()==0)
+    {
+        message->setStyleSheet("background-color: lightblue; color: black; "
+                               "font: 700 italic 14pt 'Times New Roman';");
+        message->setText("<center><font color = 'red'>ВНИМАНИЕ !!!</center>");
+        message->setInformativeText("<center> не выбранна группа радиостанций </center>");
+        message->setIcon(QMessageBox::Information);
+        message->setStandardButtons(QMessageBox::Ok);
+        message->setWindowFlag(Qt::FramelessWindowHint);
+        message->show();
+        return;
+    }
+    if((str_name.isEmpty()) or str_name.count(' ')==str_name.size())
+    {
+        message->setStyleSheet("background-color: lightblue; color: black; "
+                               "font: 700 italic 14pt 'Times New Roman';");
+        message->setText("<center><font color = 'red'>ВНИМАНИЕ !!!</center>");
+        message->setInformativeText("<center> не введено название радиостанции </center>");
+        message->setIcon(QMessageBox::Information);
+        message->setStandardButtons(QMessageBox::Ok);
+        message->setWindowFlag(Qt::FramelessWindowHint);
+        message->show();
+        return;
+    }
+    if((str_url.isEmpty()) or (str_url.count(' ')==str_url.size()))
+    {
+        message->setStyleSheet("background-color: lightblue; color: black; "
+                               "font: 700 italic 14pt 'Times New Roman';");
+        message->setText("<center><font color = 'red'>ВНИМАНИЕ !!!</center>");
+        message->setInformativeText("<center> не введено url радиостанции </center>");
+        message->setIcon(QMessageBox::Information);
+        message->setStandardButtons(QMessageBox::Ok);
+        message->setWindowFlag(Qt::FramelessWindowHint);
+        message->show();
+        return;
+    }
+
+    emit add_radio(str_group, str_name, str_url);    // передаем сигнал для добавления радио
+}

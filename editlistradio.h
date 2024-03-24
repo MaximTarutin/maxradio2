@@ -31,10 +31,13 @@ private slots:
     void close_editor();                            // закрыть окно редактора
     void changed_groups();                          // Обновляем del_combobox с названиями радиостанций
     void check_delete();                            // Проверка на возможность удаления радио из бд
+    void check_add();                               // Проверка можно ли добавить радиостанцию в плейлист
 
 signals:
     void reset_playlist();                          // сигнал сбросить плейлист ловится в mainwindow.cpp
     void delete_yes(QString nameRadio);             // сигнал удалить радиостанцию ловится в mainwindow.cpp
+    void add_radio(QString group, QString name,
+                   QString url);                    // сигнал добавить радиостанцию
 };
 
 #endif // EDITLISTRADIO_H

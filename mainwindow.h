@@ -47,7 +47,10 @@ private:
     bool                FLAG_SHOW;                      // видимость playlist_window
     QString             library;                        // используемая библиотека BASS or QMediaPlayer
     EditlistRadio       *editor_window = 0;             // редактор плейлиста
-    QMessageBox         *message;                       // всплывающие окна
+    QMessageBox         *message = 0;                   // всплывающие окна
+
+    void    reload_editor_playlist();                   // переинициализация списка радиостанций в окне
+                                                        // редактора и плейлиста
 
 
 
@@ -69,6 +72,7 @@ private slots:
     void set_volume(int level);                                 // ловим сигнал изменгения уровня громкости
     void reset_playlist();                                      // сброс плейлиста в начальное состояние
     void delete_radio(QString nameRadio);                       // удаляем радиостанцию из плейлиста
+    void add_radio(QString group, QString name, QString url);   // добавляем радиостанцию в плейлист
 };
 
 #endif // MAINWINDOW_H
