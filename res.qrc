@@ -13,5 +13,6 @@
         <file>res/stop.png</file>
         <file>res/vborder.png</file>
         <file>res/galka.png</file>
+        <file>res/frames.png</file>
     </qresource>
 </RCC>

@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    aboutwindow.cpp \
     databaseradio.cpp \
     editlistradio.cpp \
     main.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
     radioplayer.cpp
 
 HEADERS += \
+    aboutwindow.h \
     databaseradio.h \
     editlistradio.h \
     mainwindow.h \
@@ -24,6 +26,7 @@ HEADERS += \
     radioplayer.h
 
 FORMS += \
+    aboutwindow.ui \
     editlistradio.ui \
     playlistradio.ui
 

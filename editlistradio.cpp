@@ -140,13 +140,15 @@ void EditlistRadio::check_add()
     QString str_url  = ui->add_url_lineEdit->text();
     QString str_group = ui->Category_comboBox->currentText();
 
+    // Сначала проверяем все ли необходимые поля заполнены
+
     if(ui->Category_comboBox->currentIndex()==0)
     {
         message->setStyleSheet("background-color: lightblue; color: black; "
                                "font: 700 italic 14pt 'Times New Roman';");
         message->setText("<center><font color = 'red'>ВНИМАНИЕ !!!</center>");
         message->setInformativeText("<center> не выбранна группа радиостанций </center>");
-        message->setIcon(QMessageBox::Information);
+        message->setIcon(QMessageBox::Warning);
         message->setStandardButtons(QMessageBox::Ok);
         message->setWindowFlag(Qt::FramelessWindowHint);
         message->show();
@@ -158,7 +160,7 @@ void EditlistRadio::check_add()
                                "font: 700 italic 14pt 'Times New Roman';");
         message->setText("<center><font color = 'red'>ВНИМАНИЕ !!!</center>");
         message->setInformativeText("<center> не введено название радиостанции </center>");
-        message->setIcon(QMessageBox::Information);
+        message->setIcon(QMessageBox::Warning);
         message->setStandardButtons(QMessageBox::Ok);
         message->setWindowFlag(Qt::FramelessWindowHint);
         message->show();
@@ -170,12 +172,24 @@ void EditlistRadio::check_add()
                                "font: 700 italic 14pt 'Times New Roman';");
         message->setText("<center><font color = 'red'>ВНИМАНИЕ !!!</center>");
         message->setInformativeText("<center> не введено url радиостанции </center>");
-        message->setIcon(QMessageBox::Information);
+        message->setIcon(QMessageBox::Warning);
         message->setStandardButtons(QMessageBox::Ok);
         message->setWindowFlag(Qt::FramelessWindowHint);
         message->show();
         return;
     }
 
-    emit add_radio(str_group, str_name, str_url);    // передаем сигнал для добавления радио
+    emit add_radio(str_group, str_name, str_url);    // передаем сигнал для добавления радио в базу данных
+
+    message->setStyleSheet("background-color: lightblue; color: black; "
+                           "font: 700 italic 14pt 'Times New Roman';");
+    message->setText("<center><font color = 'red'>ВНИМАНИЕ !!!</center>");
+    message->setInformativeText("<center> Радиостанция "+str_name+" добавлена в группу "+str_group+" !!! </center>");
+    message->setIcon(QMessageBox::Information);
+    message->setStandardButtons(QMessageBox::Ok);
+    message->setWindowFlag(Qt::FramelessWindowHint);
+    message->show();
+
+    ui->add_name_lineEdit->clear();
+    ui->add_url_lineEdit->clear();
 }

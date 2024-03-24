@@ -15,6 +15,7 @@
 #include "playlistradio.h"
 #include "radioplayer.h"
 #include "editlistradio.h"
+#include "aboutwindow.h"
 
 extern QString      OS;
 
@@ -38,6 +39,7 @@ private:
     QAction             *bass_library = 0;              // библиотека BASS
     QAction             *exit_action = 0;               // пункт меню выход из программы
     QAction             *editor_action = 0;             // пункт меню открыть плейлист
+    QAction             *about_action = 0;              // пункт меню о программе
     PlaylistRadio       *playlist_window = 0;           // окно плейлиста
     QScreen             *screen = 0;
     RadioPlayer         *radio = 0;                     // плеер радио
@@ -48,6 +50,7 @@ private:
     QString             library;                        // используемая библиотека BASS or QMediaPlayer
     EditlistRadio       *editor_window = 0;             // редактор плейлиста
     QMessageBox         *message = 0;                   // всплывающие окна
+    AboutWindow         *about_window = 0;              // окно "О программе"
 
     void    reload_editor_playlist();                   // переинициализация списка радиостанций в окне
                                                         // редактора и плейлиста
@@ -73,6 +76,7 @@ private slots:
     void reset_playlist();                                      // сброс плейлиста в начальное состояние
     void delete_radio(QString nameRadio);                       // удаляем радиостанцию из плейлиста
     void add_radio(QString group, QString name, QString url);   // добавляем радиостанцию в плейлист
+    void about();
 };
 
 #endif // MAINWINDOW_H

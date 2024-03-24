@@ -13,10 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
     bass_library =    new QAction("библиотека BASS", submenu);
     exit_action =     new QAction("Выход", this);
     editor_action =   new QAction("Редактор радиостанций", this);
+    about_action  =   new QAction("О программе", this);
     playlist_window = new PlaylistRadio();
     radio =           new RadioPlayer();
     editor_window =   new EditlistRadio();
     message =         new QMessageBox(editor_window);
+    about_window =    new AboutWindow();
 
     nameRadio = "";
 
@@ -77,10 +79,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(editor_window,   &EditlistRadio::reset_playlist,    this,   &MainWindow::reset_playlist);           // сброс плейлиста
     connect(editor_window,   &EditlistRadio::delete_yes,        this,   &MainWindow::delete_radio);             // удаляем радиостанцию
     connect(editor_window,   &EditlistRadio::add_radio,         this,   &MainWindow::add_radio);                // добавляем радиостанцию
+    connect(about_action,    &QAction::triggered,               this,   &MainWindow::about);
 }
 
 MainWindow::~MainWindow()
 {
+    delete about_window;
+    delete about_action;
     delete message;
     delete editor_window;
     delete radio;
@@ -107,6 +112,8 @@ void MainWindow::init()
     menu->addMenu(submenu);                                      // выбор используемой библиотеки QMedia или BASS
     submenu->addAction(qt_library);
     submenu->addAction(bass_library);
+    menu->addSeparator();
+    menu->addAction(about_action);
     menu->addSeparator();
     menu->addAction(exit_action);
     trayIcon->setContextMenu(menu);
@@ -334,6 +341,13 @@ void MainWindow::reload_editor_playlist()
     editor_window->get_name_radio(database->read_name_db());
     editor_window->get_group_radio(database->read_groups_db());
     editor_window->init();
+}
+
+// ----------------------------- О программе --------------------------------------
+
+void MainWindow::about()
+{
+    about_window->show();
 }
 
 // ---------------------------- Выход из программы --------------------------------

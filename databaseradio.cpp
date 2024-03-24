@@ -236,6 +236,8 @@ void DataBaseRadio::delete_radio(QString nameRadio)
 
 void DataBaseRadio::add_radio(QString group, QString name, QString url)
 {
-
+    QSqlQuery query;
+    query.exec("INSERT INTO maxradio_table (groups, name, url) "
+               "VALUES ('"+group+"', '"+name+"','"+url+"')");
 }
 

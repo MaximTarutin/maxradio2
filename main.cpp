@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
         QMessageBox msgBox;
         msgBox.setIcon(QMessageBox::Warning);
         msgBox.setText(QObject::tr("Приложение maxradio уже запущено.\n"
-                                   "Вы можете запустить только один экземпляр приложения."));
+                                   "Программа работает в трее."));
         msgBox.exec();
         return 1;
     }
