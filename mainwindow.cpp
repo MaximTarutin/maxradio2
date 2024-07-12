@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     exit_action =     new QAction("Выход", this);
     editor_action =   new QAction("Редактор радиостанций", this);
     about_action  =   new QAction("О программе", this);
+    play_action =     new QAction("Играть", this);
+    pause_action =     new QAction("Пауза", this);
     playlist_window = new PlaylistRadio();
     radio =           new RadioPlayer();
     editor_window =   new EditlistRadio();
@@ -79,11 +81,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(editor_window,   &EditlistRadio::reset_playlist,    this,   &MainWindow::reset_playlist);           // сброс плейлиста
     connect(editor_window,   &EditlistRadio::delete_yes,        this,   &MainWindow::delete_radio);             // удаляем радиостанцию
     connect(editor_window,   &EditlistRadio::add_radio,         this,   &MainWindow::add_radio);                // добавляем радиостанцию
-    connect(about_action,    &QAction::triggered,               this,   &MainWindow::about);
+    connect(about_action,    &QAction::triggered,               this,   &MainWindow::about);                    // о программе
+    connect(play_action,     &QAction::triggered, this, [this]() {play_stop(true);});                           // играть
+    connect(pause_action,    &QAction::triggered, this, [this]() {play_stop(false);});                          // стоп
 }
 
 MainWindow::~MainWindow()
 {
+    delete play_action;
+    delete pause_action;
     delete about_window;
     delete about_action;
     delete message;
@@ -108,6 +114,9 @@ void MainWindow::init()
     QIcon trayImage(":/res/radio-gray.png");                    // Приложение запускаем в трее
     trayIcon->setIcon(trayImage);
     trayIcon->show();
+    menu->addAction(play_action);
+    menu->addAction(pause_action);
+    menu->addSeparator();
     menu->addAction(editor_action);                              // Формируем меню приложения
     menu->addMenu(submenu);                                      // выбор используемой библиотеки QMedia или BASS
     submenu->addAction(qt_library);
