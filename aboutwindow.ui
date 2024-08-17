@@ -39,8 +39,8 @@
     <rect>
      <x>150</x>
      <y>120</y>
-     <width>471</width>
-     <height>251</height>
+     <width>491</width>
+     <height>271</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -66,6 +66,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt; font-weight:700; font-style:italic; color:#ffff00;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:700; font-style:italic; color:#ffaaff;&quot;&gt;Программирование:&lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:700; font-style:italic; color:#ffff00;&quot;&gt;        &lt;/span&gt;&lt;span style=&quot; font-size:12pt; font-weight:700; font-style:italic; text-decoration: underline; color:#ffff00;&quot;&gt;Тарутин Максим Александрович&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt; font-weight:700; font-style:italic; color:#ffff00;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt; font-weight:700; font-style:italic; color:#02ffcc;&quot;&gt;e-mail:&lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700; font-style:italic; color:#ffff00;&quot;&gt;  &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700; font-style:italic; text-decoration: underline; color:#ffff00;&quot;&gt;mtarut@mail.ru&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt; font-weight:700; font-style:italic; color:#ff0000;&quot;&gt;Воркута 2024 г.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
